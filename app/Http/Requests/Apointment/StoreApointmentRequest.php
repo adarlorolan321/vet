@@ -11,7 +11,7 @@ class StoreApointmentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->user()->can("store apointment");
+         return auth()->user()->can("insert apointment");;
     }
 
     /**

@@ -27,10 +27,7 @@ defineProps({
                     </li>
                 </template>
 
-                <li>Lucas</li>
-                <li>Jaeaniah</li>
-                <li></li>
-                <li></li>
+                
             </ul>
         </aside>
         <div class="content w-100">

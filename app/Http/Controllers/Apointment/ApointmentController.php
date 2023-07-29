@@ -70,6 +70,7 @@ class ApointmentController extends Controller
      */
     public function store(StoreApointmentRequest $request)
     {
+        // dd($request);
         $data = Apointment::create($request->validated());
         sleep(1);
 
