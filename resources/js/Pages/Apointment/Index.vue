@@ -158,8 +158,5 @@ const submit = () => {
 .calendar {
     height: 90vh;
 }
-.add-button {
-    margin: 48px 0 0 0;
-    height: 40px;
-}
+
 </style>

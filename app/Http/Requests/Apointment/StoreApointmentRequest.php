@@ -11,7 +11,7 @@ class StoreApointmentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-         return auth()->user()->can("insert apointment");;
+        return auth()->user()->can("insert apointment");;
     }
 
     /**
@@ -22,7 +22,7 @@ class StoreApointmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "date" => ["required"],"time_start" => ["required"],"time_end" => ["required"],
+            "date" => ["required"], "time_start" => ["required"], "type" => ["required"],"user_id" => ["required"],
         ];
     }
 }

@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Apointment\ApointmentController;
+use App\Http\Controllers\Customer\CustomerCalendarController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Apointment\Apointment;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -27,7 +29,20 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    // dd(auth()->user()->hasRole('Dentist'));
+    if(auth()->user()->hasRole('Admin')){
+        return Inertia::render('Dashboard');
+    }
+    if(auth()->user()->hasRole('Dentist')){
+        return Inertia::render('Admin/Dashboard');
+    }
+    else{
+        $data = Apointment::where('user_id', auth()->user()->id)->get();
+        return Inertia::render('Customer/Index', [
+            'data' => $data
+        ]);
+    }
+   
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -36,6 +51,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
    
     Route::resource('apointment', ApointmentController::class);
+    
+    Route::prefix("customer")->group(function () {
+        Route::resource('slots', CustomerCalendarController::class);
+    });
 });
 
 require __DIR__.'/auth.php';

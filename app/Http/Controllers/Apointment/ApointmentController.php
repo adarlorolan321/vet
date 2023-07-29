@@ -7,6 +7,8 @@ use App\Http\Resources\Apointment\ApointmentListResource;
 use App\Models\Apointment\Apointment;
 use App\Http\Requests\Apointment\StoreApointmentRequest;
 use App\Http\Requests\Apointment\UpdateApointmentRequest;
+use Carbon\Carbon;
+use Illuminate\Validation\ValidationException;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -18,7 +20,7 @@ class ApointmentController extends Controller
      */
     public function index(Request $request)
     {
-        
+
         $page = $request->input('page', 1); // default 1
         $perPage = $request->input('perPage', 50); // default 50
         $queryString = $request->input('query', null);
@@ -49,8 +51,7 @@ class ApointmentController extends Controller
             return json_encode($props);
         }
 
-        if(count($data) <= 0 && $page > 1)
-        {
+        if (count($data) <= 0 && $page > 1) {
             return redirect()->route('apointments.index', ['page' => 1]);
         }
 
@@ -70,13 +71,31 @@ class ApointmentController extends Controller
      */
     public function store(StoreApointmentRequest $request)
     {
-        // dd($request);
-        $data = Apointment::create($request->validated());
+        $validatedData = $request->validated();
+
+        // Calculate the end time of the new appointment
+        $startTime = $validatedData['time_start'];
+        $endTime = date('H:i', strtotime('+1 hour', strtotime($startTime)));
+        // dd($endTime);
+        // Check for overlapping appointments
+        $overlappingAppointment = Apointment::where('date', $validatedData['date'])->whereTime('time_start', '>=', $startTime)
+        ->whereTime('time_start', '<=', $endTime)
+        ->first();
+       
+        if ($overlappingAppointment) {
+            throw ValidationException::withMessages([
+                'date' => 'An appointment already exists ',
+            ]);
+        }
+
+        // Create the new appointment
+        $newAppointment = Apointment::create($validatedData);
         sleep(1);
 
         if ($request->wantsJson()) {
-            return new ApointmentListResource($data);
+            return new ApointmentListResource($newAppointment);
         }
+
         return redirect()->back();
     }
 
