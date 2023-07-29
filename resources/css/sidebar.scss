@@ -1,0 +1,31 @@
+.sidebar{
+    width: 200px;
+    height: 100vh;
+    background-color: #2EAF7D;
+    color: white;
+    h3{
+        padding: 20px;
+    }
+    ul{
+        padding: 0 0px;
+        list-style: none;
+        li{
+            padding: 5px 20px;
+            margin: 2px 0;
+            cursor: pointer;
+          a{
+            color: white;
+            text-decoration: none;
+          }
+            
+        }
+        .active {
+            background-color: #C1F6ED;
+            
+            a{
+                color: #2EAF7D;
+            }
+        }
+        
+    }
+ }
