@@ -120,7 +120,7 @@ const submit = () => {
                     <div class="mt-4">
                         <InputLabel for="time_start" value="Type" />
 
-                        <select v-model="form.type" class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                        <select v-model="form.type" class="mt-1  w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
                             <option value="">Select an option</option>
                             <option
                                 v-for="option in options"

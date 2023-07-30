@@ -13,6 +13,7 @@
   
   /* Target the event background color */
   .fc-event {
+    cursor: pointer;
     background-color: #2eaf7d; /* Change to your desired background color */
     border-color: #2eaf7d; /* Change to your desired border color */
     color: white; /* Change to your desired text color */
