@@ -21,7 +21,7 @@ use Inertia\Inertia;
 */
 
 if (env('APP_ENV') === 'dev') {
-    URL::forceSchema('https');
+    URL::forceScheme('https');
 }
 
 Route::get('/', function () {
