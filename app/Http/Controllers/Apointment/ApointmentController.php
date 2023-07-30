@@ -76,8 +76,7 @@ class ApointmentController extends Controller
         // Calculate the end time of the new appointment
         $startTime = $validatedData['time_start'];
         $endTime = date('H:i', strtotime('+1 hour', strtotime($startTime)));
-        // dd($endTime);
-        // Check for overlapping appointments
+        
         $overlappingAppointment = Apointment::where('date', $validatedData['date'])->whereTime('time_start', '>=', $startTime)
         ->whereTime('time_start', '<=', $endTime)
         ->first();
@@ -87,8 +86,10 @@ class ApointmentController extends Controller
                 'date' => 'An appointment already exists ',
             ]);
         }
+        $validatedData['time_end'] = $endTime;
+        $validatedData['status'] = 'Pending';
 
-        // Create the new appointment
+    //    dd($validatedData);
         $newAppointment = Apointment::create($validatedData);
         sleep(1);
 

@@ -12,12 +12,29 @@ const user = computed(() => usePage().props.auth.user);
 const appointmentData = computed(() => usePage().props.data);
 const error = computed(() => usePage().props.errors);
 
+
+
 let form = useForm({
     date: null,
     time_start: null,
+    time_end: null,
+    status: 'Pending',
     type: null,
     user_id: user.value.id
 });
+
+
+const timeOptions = ref([
+    { label: "08:00 AM", value: "08:00" },
+    { label: "09:00 AM", value: "09:00" },
+    { label: "10:00 AM", value: "10:00" },
+    { label: "11:00 AM", value: "11:00" },
+    { label: "12:00 PM", value: "12:00" },
+    { label: "01:00 PM", value: "01:00" },
+    { label: "02:00 PM", value: "02:00" },
+    { label: "03:00 PM", value: "03:00" },
+    { label: "04:00 PM", value: "04:00" },
+]);
 
 const options = ref([
     { value: "New Appointment", label: "New Appointment" },
@@ -56,19 +73,22 @@ const submit = () => {
                         <InputError class="mt-2" :message="form.errors.date" />
                     </div>
                     <div class="mt-4">
-                        <InputLabel for="time_end" value="Time End" />
+                        <InputLabel for="time_start" value="Time" />
 
-                        <TextInput
-                            id="time_end"
-                            type="time"
-                            class="mt-1 block w-full"
-                            v-model="form.time_start"
-                            required
-                        />
+                        <select v-model="form.time_start" class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                            <option value="">Select an option</option>
+                            <option
+                                v-for="option in timeOptions"
+                                :key="option.value"
+                                :value="option.value"
+                            >
+                                {{ option.label }}
+                            </option>
+                        </select>
 
                         <InputError
                             class="mt-2"
-                            :message="form.errors.time_start"
+                            :message="form.errors.password"
                         />
                     </div>
                     <div class="mt-4">

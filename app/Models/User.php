@@ -22,6 +22,12 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'first_name',
+        'last_name',
+        'barangay',
+        'mobile_no',
+        'city',
+        'province',
     ];
 
     /**
@@ -43,4 +49,23 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function getRoleAttribute()
+    {
+        return $this->getRoleNames()->implode(', ');
+    }
+    protected static function  booted()
+    {
+        static::created(function ($user) {
+            $user->name = $user->first_name . ' ' . $user->last_name;
+            // $user->profile()->create([
+            //     'first_name' => $user->first_name,
+            //     'last_name' => $user->last_name,
+            //     'email' => $user->email,
+            // ]);
+        });
+        static::creating(function ($user) {
+            $user->name = $user->first_name . ' ' . $user->last_name;
+        });
+    }
 }

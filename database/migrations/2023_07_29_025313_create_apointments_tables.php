@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('user_id');
             $table->string('date');
             $table->string('time_start');
+            $table->string('time_end');
+            $table->string('status');
             $table->string('type');
             $table->timestamps();
         });
