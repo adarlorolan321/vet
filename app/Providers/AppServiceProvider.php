@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +21,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        if (config('app.env') === 'dev') {
+            URL::forceScheme('https');
+            Request::setTrustedProxies([request()->getClientIp()], Request::HEADER_X_FORWARDED_PROTO);
+        }
     }
 }
