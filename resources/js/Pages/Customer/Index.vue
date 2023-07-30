@@ -15,6 +15,7 @@ const error = computed(() => usePage().props.errors);
 
 
 let form = useForm({
+    id:null,
     date: null,
     time_start: null,
     time_end: null,
@@ -23,6 +24,17 @@ let form = useForm({
     user_id: user.value.id
 });
 
+const editTime =(data)=>{
+   form.id = data.id,
+   form.date = data.date,
+   form.time_start = data.time_start,
+   form.time_end = data.time_end,
+   form.status = data.status,
+   form.type = data.type,
+   form.user_id = data.user_id
+   
+   console.log(form);
+}
 
 const timeOptions = ref([
     { label: "08:00 AM", value: "08:00" },
@@ -44,11 +56,21 @@ const options = ref([
 
 const submit = () => {
     console.log("rolan");
-    form.post(route("apointment.store"), {
+    if(form.id != null){
+        form.patch(route("apointment.update",{id:form.id}), {
         onError: (error) => {
             this.form.errors = error.errors;
         },
     });
+    }
+    else{
+        form.post(route("apointment.store"), {
+        onError: (error) => {
+            this.form.errors = error.errors;
+        },
+    });
+    }
+    
 };
 </script>
 
@@ -117,7 +139,7 @@ const submit = () => {
                         :class="{ 'opacity-25': form.processing }"
                         :disabled="form.processing"
                     >
-                        Add
+                        {{ form.id != null? 'Update' : 'Add' }}  
                     </PrimaryButton>
                 </div>
             </form>
@@ -147,7 +169,9 @@ const submit = () => {
           <td class="py-2 px-4 border">{{ data.time_start }}</td>
           <td class="py-2 px-4 border">{{ data.type }}</td>
           <td class="py-2 px-4 border"></td>
-          <td class="py-2 px-4 border"></td>
+          <td class="py-2 px-4 border">
+            <a href="javascript:void(0)" @click="editTime(data)">edit</a>
+          </td>
         </tr>
       </tbody>
     </table>

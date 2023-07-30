@@ -71,25 +71,35 @@ class ApointmentController extends Controller
      */
     public function store(StoreApointmentRequest $request)
     {
+        $hasAppointment = Apointment::where('user_id', auth()->user()->id)->first();
+
+
         $validatedData = $request->validated();
 
         // Calculate the end time of the new appointment
         $startTime = $validatedData['time_start'];
         $endTime = date('H:i', strtotime('+1 hour', strtotime($startTime)));
-        
+
         $overlappingAppointment = Apointment::where('date', $validatedData['date'])->whereTime('time_start', '>=', $startTime)
-        ->whereTime('time_start', '<=', $endTime)
-        ->first();
-       
+            ->whereTime('time_start', '<=', $endTime)
+            ->first();
+
         if ($overlappingAppointment) {
             throw ValidationException::withMessages([
                 'date' => 'An appointment already exists ',
             ]);
         }
+        if ($hasAppointment) {
+            throw ValidationException::withMessages([
+                'date' => 'You already set an appointment',
+            ]);
+        }
+
+
         $validatedData['time_end'] = $endTime;
         $validatedData['status'] = 'Pending';
 
-    //    dd($validatedData);
+        //    dd($validatedData);
         $newAppointment = Apointment::create($validatedData);
         sleep(1);
 
@@ -133,8 +143,31 @@ class ApointmentController extends Controller
      */
     public function update(UpdateApointmentRequest $request, string $id)
     {
+
+
         $data = Apointment::findOrFail($id);
-        $data->update($request->validated());
+        $validatedData = $request->validated();
+
+        // Calculate the end time of the new appointment
+        $startTime = $validatedData['time_start'];
+        $endTime = date('H:i', strtotime('+1 hour', strtotime($startTime)));
+
+        $overlappingAppointment = Apointment::where('date', $validatedData['date'])->whereTime('time_start', '>=', $startTime)
+            ->whereTime('time_start', '<=', $endTime)
+            ->where('id', '!=', $id)
+            ->first();
+
+        if ($overlappingAppointment) {
+            throw ValidationException::withMessages([
+                'date' => 'An appointment already exists ',
+            ]);
+        }
+        
+        $validatedData['time_end'] = $endTime;
+        $validatedData['status'] = 'Pending';
+       
+        // dd($data);
+        $data->update($validatedData);
         sleep(1);
 
         if ($request->wantsJson()) {
