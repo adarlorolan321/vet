@@ -46,8 +46,11 @@ export default {
                     center: "title", // Show the title (current date) in the center
                     right: "dayGridMonth,timeGridWeek", // Show month and week view buttons on the right side
                 },
+                slotMinTime: "08:00:00",
+                slotMaxTime: "18:00:00",
                 events: [],
                 displayEventTime: false,
+                dayCell: this.handleDayCell,
             },
         };
     },
@@ -66,6 +69,16 @@ export default {
         },
         handleEventClick(info) {
             this.selectedEvent = info.event; // Store the clicked event in selectedEvent
+        },
+        handleDayCell(arg) {
+            const startTime = moment("08:00", "HH:mm");
+            const endTime = moment("17:00", "HH:mm");
+            const date = moment(arg.date);
+
+            // Check if the date falls within the specific time range (08:00 to 17:00)
+            if (date.isSameOrAfter(startTime) && date.isSameOrBefore(endTime)) {
+                arg.dayEl.style.backgroundColor = "red";
+            }
         },
     },
 };
@@ -133,7 +146,7 @@ const submit = () => {
                     </div>
                     <div class="modal-body">
                         <div class="d-flex">
-                            <div class="border-r border-gray-600  pr-2 ">
+                            <div class="border-r border-gray-600 pr-2">
                                 <p class="pt-2">Start Time</p>
                             </div>
                             <div class="pl-2">
@@ -154,7 +167,7 @@ const submit = () => {
                             </div>
                         </div>
                         <div class="d-flex mt-2">
-                            <div class="border-r border-gray-600  pr-4 ">
+                            <div class="border-r border-gray-600 pr-4">
                                 <p class="pt-2">End Time</p>
                             </div>
                             <div class="pl-2">
