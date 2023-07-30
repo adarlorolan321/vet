@@ -1,5 +1,5 @@
 <script>
-import AuthenticatedLayout from "../../Layouts/AuthenticatedLayout.vue";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head } from "@inertiajs/vue3";
 import { useRoute } from "vue-router";
 import Calendar from "calendarjs";
@@ -22,8 +22,7 @@ export default {
         transformedEvents() {
             // Transform the prop data into the events format expected by FullCalendar
             return this.data.data.map((item) => ({
-                
-                title: `Event ${item.id}`,
+                title: `${item.user.name} - ${item.time_start}`,
                 start: `${item.date}T${item.time_start}`,
                 end: `${item.date}T${item.time_end}`,
             }));
@@ -33,9 +32,12 @@ export default {
         return {
             calendarOptions: {
                 plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin], // Add timeGridPlugin to plugins
-                initialView: "timeGridWeek", // Use "timeGridWeek" or "timeGridDay" for time slots
+                initialView: "dayGridMonth", // Use "timeGridWeek" or "timeGridDay" for time slots
                 slotDuration: "00:30:00", // Set the duration for each time slot (30 minutes in this example)
                 dateClick: this.handleDateClick,
+                height: 750,
+                contentHeight: 650,
+                themeSystem: 'bootstrap5',
                 headerToolbar: {
                     left: "prev,next today", // Show previous, next, and today buttons on the left side
                     center: "title", // Show the title (current date) in the center
@@ -58,6 +60,7 @@ export default {
     methods: {
         handleDateClick: function (arg) {
             alert("date click! " + arg.dateStr);
+            
         },
     },
 };
@@ -86,61 +89,9 @@ const submit = () => {
 
 <template>
     <Head title="Dashboard" />
-    <!-- PSid -->
+   
     <AuthenticatedLayout>
-        <form @submit.prevent="submit">
-            <div class="d-flex mx-5 gap-3 mb-3">
-                <div class="mt-4">
-                    <InputLabel for="date" value="Date" />
-
-                    <TextInput
-                        id="date"
-                        type="date"
-                        class="mt-1 block w-full"
-                        v-model="form.date"
-                        required
-                        autofocus
-                    />
-
-                    <InputError class="mt-2" :message="form.errors.date" />
-                </div>
-
-                <div class="mt-4">
-                    <InputLabel for="time_start" value="Time Start" />
-
-                    <TextInput
-                        id="time_start"
-                        type="time"
-                        class="mt-1 block w-full"
-                        v-model="form.time_start"
-                        required
-                    />
-
-                    <InputError class="mt-2" :message="form.errors.password" />
-                </div>
-
-                <div class="mt-4">
-                    <InputLabel for="time_end" value="Time End" />
-
-                    <TextInput
-                        id="time_end"
-                        type="time"
-                        class="mt-1 block w-full"
-                        v-model="form.time_end"
-                        required
-                    />
-
-                    <InputError class="mt-2" :message="form.errors.password" />
-                </div>
-                <PrimaryButton
-                    class="add-button"
-                    :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing"
-                >
-                    Add
-                </PrimaryButton>
-            </div>
-        </form>
+        
         <div class="calendar-container mx-5">
             <FullCalendar class="calendar" :options="calendarOptions" />
         </div>
@@ -149,14 +100,9 @@ const submit = () => {
 
 <style lang="scss">
 .calendar-container {
-    height: 50%;
-
-    margin: 0 auto; /* Center the calendar horizontally within the container (optional) */
+   margin-top: 20px;
 }
 
 /* Optionally, you can set a height for the calendar itself if needed */
-.calendar {
-    height: 90vh;
-}
 
 </style>

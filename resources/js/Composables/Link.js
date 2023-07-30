@@ -1,8 +1,8 @@
 export function useLink(id) {
     const sideNavLinks = [
         {label: 'Dashboard', icon: 'home', route: 'dashboard', base_route: 'dashboard'},
-        { label: 'Apointment', icon: 'hotel', route: 'apointment.index', base_route: 'apointment.*',  access: 'Admin' },
-        // { label: 'Note Log', icon: 'paper-plane', route: 'notes.index', base_route: 'notes.*' ,access: 'Hotel Admin'},
+        { label: 'Calendar', icon: 'hotel', route: 'apointment.index', base_route: 'apointment.*',  access: 'Admin' },
+        { label: 'Unavailable Dates', icon: 'paper-plane', route: 'unavailable-dates.index', base_route: 'unavailable-dates.*' ,access: 'Admin'},
         // { label: "VIP's", icon: 'star', route: 'vip.index', base_route: 'vip.*' ,access: 'Hotel Admin'},
         // { label: 'Guests', icon: 'user-vneck-hair', route: 'guest.index', base_route: 'guest.*', access: 'Hotel Admin' },
         // { label: 'Celebrations', icon: 'balloons', route: 'celebration.index', base_route: 'celebration.*', access: 'Hotel Admin' }, //new

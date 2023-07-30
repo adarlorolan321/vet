@@ -28,7 +28,7 @@ class ApointmentController extends Controller
         $order = $request->input('order', 'asc');
 
         $data = Apointment::query()
-            ->with([])
+            ->with(['user'])
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
                     // filter result
@@ -55,7 +55,7 @@ class ApointmentController extends Controller
             return redirect()->route('apointments.index', ['page' => 1]);
         }
 
-        return Inertia::render('Apointment/Index', $props);
+        return Inertia::render('Admin/Apointment/Index', $props);
     }
 
     /**
@@ -80,8 +80,8 @@ class ApointmentController extends Controller
         $startTime = $validatedData['time_start'];
         $endTime = date('H:i', strtotime('+1 hour', strtotime($startTime)));
 
-        $overlappingAppointment = Apointment::where('date', $validatedData['date'])->whereTime('time_start', '>=', $startTime)
-            ->whereTime('time_start', '<=', $endTime)
+        $overlappingAppointment = Apointment::where('date', $validatedData['date'])->whereTime('time_start', $startTime)
+           
             ->first();
 
         if ($overlappingAppointment) {
@@ -152,8 +152,8 @@ class ApointmentController extends Controller
         $startTime = $validatedData['time_start'];
         $endTime = date('H:i', strtotime('+1 hour', strtotime($startTime)));
 
-        $overlappingAppointment = Apointment::where('date', $validatedData['date'])->whereTime('time_start', '>=', $startTime)
-            ->whereTime('time_start', '<=', $endTime)
+        $overlappingAppointment = Apointment::where('date', $validatedData['date'])->whereTime('time_start', $startTime)
+
             ->where('id', '!=', $id)
             ->first();
 
@@ -162,10 +162,10 @@ class ApointmentController extends Controller
                 'date' => 'An appointment already exists ',
             ]);
         }
-        
+
         $validatedData['time_end'] = $endTime;
         $validatedData['status'] = 'Pending';
-       
+
         // dd($data);
         $data->update($validatedData);
         sleep(1);

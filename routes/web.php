@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\UnavalableDatesController;
 use App\Http\Controllers\Apointment\ApointmentController;
 use App\Http\Controllers\Customer\CustomerCalendarController;
+use App\Http\Controllers\CustomerAppoinmentController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Apointment\Apointment;
 use Illuminate\Foundation\Application;
@@ -56,9 +58,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
    
     Route::resource('apointment', ApointmentController::class);
-    
+    Route::resource('unavailable-dates', UnavalableDatesController::class);
+    Route::resource('customer-apointment', CustomerAppoinmentController::class);
     Route::prefix("customer")->group(function () {
         Route::resource('slots', CustomerCalendarController::class);
+      
     });
 });
 

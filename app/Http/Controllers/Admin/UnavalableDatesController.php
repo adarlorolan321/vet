@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Apointment\StoreApointmentRequest;
 use App\Http\Resources\Apointment\ApointmentListResource;
 use App\Models\Apointment\Apointment;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
-use App\Http\Requests\Apointment\UpdateApointmentRequest;
-use Carbon\Carbon;
+use Illuminate\Validation\ValidationException;
 
-class CustomerAppoinmentController extends Controller
+class UnavalableDatesController extends Controller
 {
     public function index(Request $request)
     {
@@ -31,6 +30,8 @@ class CustomerAppoinmentController extends Controller
                     //     ->orWhere('column', 'like', '%' . $queryString . '%');
                 }
             })
+            ->where('type','!=', 'New Appointment')
+            ->where('type','!=', 'Reschedule')
             ->when(count($sort) == 1, function ($query) use ($sort, $order) {
                 $query->orderBy($sort[0], $order);
             })
@@ -49,8 +50,9 @@ class CustomerAppoinmentController extends Controller
         if (count($data) <= 0 && $page > 1) {
             return redirect()->route('apointments.index', ['page' => 1]);
         }
+        // dd($props);
 
-        return Inertia::render('Admin/Apointment/Index', $props);
+        return Inertia::render('Admin/UnavailableDates/Index', $props);
     }
     public function store(StoreApointmentRequest $request)
     {
@@ -61,23 +63,18 @@ class CustomerAppoinmentController extends Controller
 
         // Calculate the end time of the new appointment
         $startTime = $validatedData['time_start'];
-        $endTime = date('H:i', strtotime('+1 hour', strtotime($startTime)));
 
-        $overlappingAppointment = Apointment::where('date', $validatedData['date'])->whereTime('time_start', $startTime)
-
-            ->first();
-
-        if ($overlappingAppointment) {
-            throw ValidationException::withMessages([
-                'date' => 'An appointment already exists ',
-            ]);
+        if($validatedData['type'] =='Half Day'){
+            $endTime = date('H:i', strtotime('+4 hour', strtotime($startTime)));
         }
-        if ($hasAppointment) {
-            throw ValidationException::withMessages([
-                'date' => 'You already set an appointment',
-            ]);
+        else{
+            $endTime = date('H:i', strtotime('+9 hour', strtotime($startTime)));
         }
 
+        
+       
+
+       
 
         $validatedData['time_end'] = $endTime;
         $validatedData['status'] = 'Pending';
@@ -90,54 +87,6 @@ class CustomerAppoinmentController extends Controller
             return new ApointmentListResource($newAppointment);
         }
 
-        return redirect()->back();
-    }
-    public function update(UpdateApointmentRequest $request, string $id)
-    {
-
-
-        $data = Apointment::findOrFail($id);
-        $validatedData = $request->validated();
-
-        // Calculate the end time of the new appointment
-        $startTime = $validatedData['time_start'];
-        $endTime = date('H:i', strtotime('+1 hour', strtotime($startTime)));
-
-        $overlappingAppointment = Apointment::where('date', $validatedData['date'])->whereTime('time_start', $startTime)
-
-            ->where('id', '!=', $id)
-            ->first();
-
-        if ($overlappingAppointment) {
-            throw ValidationException::withMessages([
-                'date' => 'An appointment already exists ',
-            ]);
-        }
-
-        $validatedData['time_end'] = $endTime;
-        $validatedData['status'] = 'Pending';
-
-        // dd($data);
-        $data->update($validatedData);
-        sleep(1);
-
-        if ($request->wantsJson()) {
-            return (new ApointmentListResource($data))
-                ->response()
-                ->setStatusCode(201);
-        }
-
-        return redirect()->back();
-    }
-    public function destroy(Request $request, string $id)
-    {
-        $data = Apointment::findOrFail($id);
-        $data->delete();
-        sleep(1);
-
-        if ($request->wantsJson()) {
-            return response(null, 204);
-        }
         return redirect()->back();
     }
 }

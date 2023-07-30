@@ -1,5 +1,5 @@
 <script setup>
-import CustomerLayout from "@/Layouts/CustomerLayout.vue";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, useForm, router, usePage } from "@inertiajs/vue3";
 import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
@@ -9,7 +9,7 @@ import TextInput from "@/Components/TextInput.vue";
 
 import {ref, computed} from 'vue'
 const user = computed(() => usePage().props.auth.user);
-const appointmentData = computed(() => usePage().props.data);
+const  appointmentData  = computed(() => usePage().props.data);
 const error = computed(() => usePage().props.errors);
 
 
@@ -17,7 +17,7 @@ const error = computed(() => usePage().props.errors);
 let form = useForm({
     id:null,
     date: null,
-    time_start: null,
+    time_start: '08:00',
     time_end: null,
     status: 'Pending',
     type: null,
@@ -49,8 +49,8 @@ const timeOptions = ref([
 ]);
 
 const options = ref([
-    { value: "New Appointment", label: "New Appointment" },
-    { value: "Reschedule", label: "Reschedule" },
+    { value: "Whole Day", label: "Whole Day" },
+    { value: "Half Day", label: "Half Day" },
    
 ]);
 
@@ -68,7 +68,7 @@ const submit = () => {
     });
     }
     else{
-        form.post(route("customer-apointment.store"), {
+        form.post(route("unavailable-dates.store"), {
         onError: (error) => {
             this.form.errors = error.errors;
         },
@@ -79,7 +79,7 @@ const submit = () => {
 </script>
 
 <template>
-    <CustomerLayout>
+    <AuthenticatedLayout>
      
         <div class="d-flex justify-center mt-2">
             <form @submit.prevent="submit">
@@ -98,7 +98,7 @@ const submit = () => {
 
                         <InputError class="mt-2" :message="form.errors.date" />
                     </div>
-                    <div class="mt-4">
+                    <!-- <div class="mt-4">
                         <InputLabel for="time_start" value="Time" />
 
                         <select v-model="form.time_start" class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
@@ -116,7 +116,7 @@ const submit = () => {
                             class="mt-2"
                             :message="form.errors.password"
                         />
-                    </div>
+                    </div> -->
                     <div class="mt-4">
                         <InputLabel for="time_start" value="Type" />
 
@@ -152,6 +152,7 @@ const submit = () => {
     <div class="my-4">
       
     </div>
+    
     <table class="w-full border-collapse">
       <thead>
         <tr class="bg-gray-100">
@@ -163,7 +164,7 @@ const submit = () => {
         </tr>
       </thead>
       <tbody>
-        <tr v-for="data in appointmentData" :key="data" class="border">
+        <tr v-for="data in appointmentData.data" :key="data" class="border">
           <td class="py-2 px-4 border">{{ data.date }}</td>
           <td class="py-2 px-4 border">{{ data.time_start }}</td>
           <td class="py-2 px-4 border">{{ data.type }}</td>
@@ -177,5 +178,5 @@ const submit = () => {
       </tbody>
     </table>
   </div>
-    </CustomerLayout>
+    </AuthenticatedLayout>
 </template>
