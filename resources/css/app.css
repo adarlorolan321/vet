@@ -7,4 +7,39 @@
     margin: 48px 0 0 0;
     height: 40px;
 }
-
+.fc-event-title {
+    color: white; /* Change to your desired text color */
+  }
+  
+  /* Target the event background color */
+  .fc-event {
+    background-color: #2eaf7d; /* Change to your desired background color */
+    border-color: #2eaf7d; /* Change to your desired border color */
+    color: white; /* Change to your desired text color */
+  }
+  
+  /* If you want to style the events differently on hover */
+  .fc-event:hover {
+    background-color: #2eaf7d; /* Change to your desired hover background color */
+    border-color: #2eaf7d; /* Change to your desired hover border color */
+    color: white; /* Change to your desired text color */
+  }
+  .fc-daygrid-event-dot {
+      border: calc(var(--fc-daygrid-event-dot-width)/2) solid #c1f6ed;
+      border-radius: calc(var(--fc-daygrid-event-dot-width)/2);
+      box-sizing: content-box;
+      height: 0px;
+      margin: 0px 4px;
+      width: 0px;
+  }
+  .fc .fc-daygrid-day-number {
+      padding: 4px;
+      position: relative;
+      z-index: 4;
+      color: #2eaf7d;
+  }
+  .fc .fc-col-header-cell-cushion {
+      display: inline-block;
+      padding: 2px 4px;
+      color: #2eaf7d;
+  }

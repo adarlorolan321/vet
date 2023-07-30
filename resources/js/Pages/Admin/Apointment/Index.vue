@@ -103,6 +103,6 @@ const submit = () => {
    margin-top: 20px;
 }
 
-/* Optionally, you can set a height for the calendar itself if needed */
+
 
 </style>
