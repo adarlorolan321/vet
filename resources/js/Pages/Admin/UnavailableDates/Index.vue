@@ -142,6 +142,7 @@ const submit = () => {
                         class="add-button"
                         :class="{ 'opacity-25': form.processing }"
                         :disabled="form.processing"
+
                     >
                         {{ form.id != null? 'Update' : 'Add' }}  
                     </PrimaryButton>
