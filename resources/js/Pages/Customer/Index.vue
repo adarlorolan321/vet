@@ -5,12 +5,16 @@ import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
+import AddSlotModal from '@/Components/AddSlotModal.vue'
 
 
 import {ref, computed} from 'vue'
+import { reactive } from "vue";
 const user = computed(() => usePage().props.auth.user);
 const appointmentData = computed(() => usePage().props.data);
 const error = computed(() => usePage().props.errors);
+
+let form_data = reactive(null);
 
 
 
@@ -21,17 +25,21 @@ let form = useForm({
     time_end: null,
     status: 'Pending',
     type: null,
-    user_id: user.value.id
+    user_id: user.value.id,
+
 });
 
 const editTime =(data)=>{
-   form.id = data.id,
-   form.date = data.date,
-   form.time_start = data.time_start,
-   form.time_end = data.time_end,
-   form.status = data.status,
-   form.type = data.type,
-   form.user_id = data.user_id
+//    form.id = data.id,
+//    form.date = data.date,
+//    form.time_start = data.time_start,
+//    form.time_end = data.time_end,
+//    form.status = data.status,
+//    form.type = data.type,
+//    form.user_id = data.user_id
+   form_data = {...form_data, ...data}
+   isModalShow.value = true;
+   
    
    console.log(form);
 }
@@ -47,12 +55,9 @@ const timeOptions = ref([
     { label: "03:00 PM", value: "15:00" },
     { label: "04:00 PM", value: "16:00" },
 ]);
+const isModalShow = ref(false);
 
-const options = ref([
-    { value: "New Appointment", label: "New Appointment" },
-    { value: "Reschedule", label: "Reschedule" },
-   
-]);
+
 
 const deleteTime = (data) => {
     form.delete(route("customer-apointment.destroy", data));
@@ -74,80 +79,26 @@ const submit = () => {
         },
     });
     }
-    
+   
 };
+
+const openModal = () =>{
+    form_data = null;
+    isModalShow.value = true;
+}
+const closeMOdal = () =>{
+    isModalShow.value = false;
+}
 </script>
 
 <template>
     <CustomerLayout>
-     
-        <div class="d-flex justify-center mt-2">
-            <form @submit.prevent="submit">
-                <div class="d-flex mx-5 gap-3 mb-3">
-                    <div class="mt-4">
-                        <InputLabel for="date" value="Date" />
-
-                        <TextInput
-                            id="date"
-                            type="date"
-                            class="mt-1 block w-full"
-                            v-model="form.date"
-                            required
-                            autofocus
-                        />
-
-                        <InputError class="mt-2" :message="form.errors.date" />
-                    </div>
-                    <div class="mt-4">
-                        <InputLabel for="time_start" value="Time" />
-
-                        <select v-model="form.time_start" class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
-                            <option value="">Select an option</option>
-                            <option
-                                v-for="option in timeOptions"
-                                :key="option.value"
-                                :value="option.value"
-                            >
-                                {{ option.label }}
-                            </option>
-                        </select>
-
-                        <InputError
-                            class="mt-2"
-                            :message="form.errors.password"
-                        />
-                    </div>
-                    <div class="mt-4">
-                        <InputLabel for="time_start" value="Type" />
-
-                        <select v-model="form.type" class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
-                            <option value="">Select an option</option>
-                            <option
-                                v-for="option in options"
-                                :key="option.value"
-                                :value="option.value"
-                            >
-                                {{ option.label }}
-                            </option>
-                        </select>
-
-                        <InputError
-                            class="mt-2"
-                            :message="form.errors.password"
-                        />
-                    </div>
-
-                    
-                    <PrimaryButton
-                        class="add-button"
-                        :class="{ 'opacity-25': form.processing }"
-                        :disabled="form.processing"
-                    >
-                        {{ form.id != null? 'Update' : 'Add' }}  
-                    </PrimaryButton>
-                </div>
-            </form>
-        </div>
+        <AddSlotModal @close="closeMOdal" :data="form_data"  :show="isModalShow"></AddSlotModal>
+ <div class="flex justify-end mr-56 ">
+    <PrimaryButton @click="openModal" type="button">Add</PrimaryButton>
+ </div>
+   
+       
         <div class="max-w-4xl mx-auto">
     <div class="my-4">
       
