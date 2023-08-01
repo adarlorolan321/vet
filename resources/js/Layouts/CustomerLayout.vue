@@ -39,6 +39,7 @@ const showingNavigationDropdown = ref(false);
                             <!-- Settings Dropdown -->
                             <a class="mx-2 decoration-none"  :href="route('dashboard')">Home</a>
                             <a class="mx-2" :href="route('slots.index')">Slot</a>
+                            <a class="mx-2" :href="route('services.index')">Services</a>
                             <a class="mx-2">History</a>
                             <div class="ml-3 relative" >
 

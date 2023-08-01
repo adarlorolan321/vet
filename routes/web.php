@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\DentalServiceController;
 use App\Http\Controllers\Admin\UnavalableDatesController;
 use App\Http\Controllers\Apointment\ApointmentController;
 use App\Http\Controllers\Customer\CustomerCalendarController;
+use App\Http\Controllers\Customer\ServiceController;
 use App\Http\Controllers\CustomerAppoinmentController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Apointment\Apointment;
@@ -59,9 +61,11 @@ Route::middleware('auth')->group(function () {
    
     Route::resource('apointment', ApointmentController::class);
     Route::resource('unavailable-dates', UnavalableDatesController::class);
+    Route::resource('dental-services', DentalServiceController::class);
     Route::resource('customer-apointment', CustomerAppoinmentController::class);
     Route::prefix("customer")->group(function () {
         Route::resource('slots', CustomerCalendarController::class);
+        Route::resource('services', ServiceController::class);
       
     });
 });

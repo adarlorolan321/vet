@@ -1,6 +1,7 @@
 .sidebar{
     width: 200px;
-    height: 90vh;
+    height: auto;
+    min-height: 90vh;
     background-color: #2EAF7D;
     color: white;
     h3{

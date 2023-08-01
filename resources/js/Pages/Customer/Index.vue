@@ -5,10 +5,9 @@ import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
-import AddSlotModal from '@/Components/AddSlotModal.vue'
+import AddSlotModal from "@/Components/AddSlotModal.vue";
 
-
-import {ref, computed} from 'vue'
+import { ref, computed } from "vue";
 import { reactive } from "vue";
 const user = computed(() => usePage().props.auth.user);
 const appointmentData = computed(() => usePage().props.data);
@@ -16,33 +15,29 @@ const error = computed(() => usePage().props.errors);
 
 let form_data = reactive(null);
 
-
-
 let form = useForm({
-    id:null,
+    id: null,
     date: null,
     time_start: null,
     time_end: null,
-    status: 'Pending',
+    status: "Pending",
     type: null,
     user_id: user.value.id,
-
 });
 
-const editTime =(data)=>{
-//    form.id = data.id,
-//    form.date = data.date,
-//    form.time_start = data.time_start,
-//    form.time_end = data.time_end,
-//    form.status = data.status,
-//    form.type = data.type,
-//    form.user_id = data.user_id
-   form_data = {...form_data, ...data}
-   isModalShow.value = true;
-   
-   
-   console.log(form);
-}
+const editTime = (data) => {
+    //    form.id = data.id,
+    //    form.date = data.date,
+    //    form.time_start = data.time_start,
+    //    form.time_end = data.time_end,
+    //    form.status = data.status,
+    //    form.type = data.type,
+    //    form.user_id = data.user_id
+    form_data = { ...form_data, ...data };
+    isModalShow.value = true;
+
+    console.log(form);
+};
 
 const timeOptions = ref([
     { label: "08:00 AM", value: "08:00" },
@@ -57,76 +52,63 @@ const timeOptions = ref([
 ]);
 const isModalShow = ref(false);
 
-
-
 const deleteTime = (data) => {
     form.delete(route("customer-apointment.destroy", data));
-}
-
-const submit = () => {
-    console.log("rolan");
-    if(form.id != null){
-        form.patch(route("customer-apointment.update",{id:form.id}), {
-        onError: (error) => {
-            this.form.errors = error.errors;
-        },
-    });
-    }
-    else{
-        form.post(route("customer-apointment.store"), {
-        onError: (error) => {
-            this.form.errors = error.errors;
-        },
-    });
-    }
-   
 };
 
-const openModal = () =>{
+const openModal = () => {
     form_data = null;
     isModalShow.value = true;
-}
-const closeMOdal = () =>{
+};
+const closeMOdal = () => {
     isModalShow.value = false;
-}
+};
 </script>
 
 <template>
     <CustomerLayout>
-        <AddSlotModal @close="closeMOdal" :data="form_data"  :show="isModalShow"></AddSlotModal>
- <div class="flex justify-end mr-56 ">
-    <PrimaryButton @click="openModal" type="button">Add</PrimaryButton>
- </div>
-   
-       
-        <div class="max-w-4xl mx-auto">
-    <div class="my-4">
-      
-    </div>
-    <table class="w-full border-collapse">
-      <thead>
-        <tr class="bg-gray-100">
-          <th class="py-2 px-4 border">Date</th>
-          <th class="py-2 px-4 border">Time</th>
-          <th class="py-2 px-4 border">Type</th>
-          <th class="py-2 px-4 border">Status</th>
-          <th class="py-2 px-4 border">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="data in appointmentData" :key="data" class="border">
-          <td class="py-2 px-4 border">{{ data.date }}</td>
-          <td class="py-2 px-4 border">{{ data.time_start }}</td>
-          <td class="py-2 px-4 border">{{ data.type }}</td>
-          <td class="py-2 px-4 border">{{ data.status }}</td>
-          <td class="py-2 px-4 border">
-            <a href="javascript:void(0)" @click="editTime(data)">edit</a> |
-            <a href="javascript:void(0)" @click="deleteTime(data.id)">delete</a>
-          </td>
-        </tr>
+        <AddSlotModal
+            @close="closeMOdal"
+            :data="form_data"
+            :show="isModalShow"
+        ></AddSlotModal>
+        <div class="flex justify-end mr-56">
+            <PrimaryButton @click="openModal" type="button">Add</PrimaryButton>
+        </div>
+
+        <div class="d-flex justify-center align-middle mt-20">
+          <div class="bg-white rounded-lg shadow-md p-6 w-full max-w-xl mx-auto ">
+            <h2 class="text-xl font-semibold mb-4">Appointment Schedule</h2>
+            <div class="grid grid-cols-5 gap-4">
+                <div class="col-span-1 text-gray-500 font-semibold">Date</div>
+                <div class="col-span-1 text-gray-500 font-semibold">Time</div>
+                <div class="col-span-1 text-gray-500 font-semibold">Type</div>
+                <div class="col-span-1 text-gray-500 font-semibold">Status</div>
+                <div class="col-span-1 text-gray-500 font-semibold">Action</div>
+
+                <!-- Sample data for demonstration purposes -->
+                <div class="col-span-1">2023-08-15</div>
+                <div class="col-span-1">10:00 AM</div>
+                <div class="col-span-1">Check-up</div>
+                <div class="col-span-1">Confirmed</div>
+                <div class="col-span-1 space-x-2">
+                    <a
+                        href="javascript:void(0)"
+                        class="text-blue-500 hover:underline"
+                        >Edit</a
+                    >
+                    <a
+                        href="javascript:void(0)"
+                        class="text-red-500 hover:underline"
+                        >Delete</a
+                    >
+                </div>
+
+                <!-- You can repeat the above section for each appointment data entry -->
+            </div>
+        </div>
+        </div>
+
         
-      </tbody>
-    </table>
-  </div>
     </CustomerLayout>
 </template>
