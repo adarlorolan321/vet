@@ -40,6 +40,8 @@ class CustomerAppoinmentController extends Controller
             'time_end' => $request->query('time_end'),
             'status' => $request->query('status'),
             'type' => $request->query('type'),
+            'service_id' => $request->query('service_id'),
+            'payment_status' => $request->query('payment_status'),
 
         ]);
 

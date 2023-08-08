@@ -11,7 +11,7 @@ class Apointment extends Model
     use HasFactory;
 
     protected $fillable = [
-        "date","time_start","type" , "time_end", 'status', 'user_id',
+        "date","time_start","type" , "time_end", 'status', 'user_id','service_id','payment_status',
     ];
 
     public function user()
