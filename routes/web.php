@@ -7,6 +7,7 @@ use App\Http\Controllers\Customer\CustomerCalendarController;
 use App\Http\Controllers\Customer\ServiceController;
 use App\Http\Controllers\CustomerAppoinmentController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Admin\DentalService;
 use App\Models\Apointment\Apointment;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -46,9 +47,11 @@ Route::get('/dashboard', function () {
         return Inertia::render('Admin/Dashboard');
     }
     else{
+        $service = DentalService::get();
         $data = Apointment::where('user_id', auth()->user()->id)->get();
         return Inertia::render('Customer/Index', [
-            'data' => $data
+            'data' => $data,
+            'service' =>$service
         ]);
     }
    
@@ -63,6 +66,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('unavailable-dates', UnavalableDatesController::class);
     Route::resource('dental-services', DentalServiceController::class);
     Route::resource('customer-apointment', CustomerAppoinmentController::class);
+    Route::get('pay',[ CustomerAppoinmentController::class,'pay'])->name('pay');
+    Route::get('store_apointment',[ CustomerAppoinmentController::class,'store_apointment'])->name('store_apointment');
     Route::prefix("customer")->group(function () {
         Route::resource('slots', CustomerCalendarController::class);
         Route::resource('services', ServiceController::class);

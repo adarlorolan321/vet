@@ -11,6 +11,7 @@ import { ref, computed } from "vue";
 import { reactive } from "vue";
 const user = computed(() => usePage().props.auth.user);
 const appointmentData = computed(() => usePage().props.data);
+const services = computed(() => usePage().props.service);
 const error = computed(() => usePage().props.errors);
 
 let form_data = reactive(null);
@@ -70,6 +71,7 @@ const closeMOdal = () => {
         <AddSlotModal
             @close="closeMOdal"
             :data="form_data"
+            :service="form_data"
             :show="isModalShow"
         ></AddSlotModal>
         <div class="flex justify-end mr-56">
@@ -85,12 +87,12 @@ const closeMOdal = () => {
                 <div class="col-span-1 text-gray-500 font-semibold">Type</div>
                 <div class="col-span-1 text-gray-500 font-semibold">Status</div>
                 <div class="col-span-1 text-gray-500 font-semibold">Action</div>
-
+                <template v-for="data in appointmentData">
                 <!-- Sample data for demonstration purposes -->
-                <div class="col-span-1">2023-08-15</div>
-                <div class="col-span-1">10:00 AM</div>
-                <div class="col-span-1">Check-up</div>
-                <div class="col-span-1">Confirmed</div>
+                <div class="col-span-1">{{ data.date  }}</div>
+                <div class="col-span-1">{{ data.time_start  }}</div>
+                <div class="col-span-1">{{ data.type  }}</div>
+                <div class="col-span-1">{{ data.status  }}</div>
                 <div class="col-span-1 space-x-2">
                     <a
                         href="javascript:void(0)"
@@ -103,6 +105,7 @@ const closeMOdal = () => {
                         >Delete</a
                     >
                 </div>
+            </template>
 
                 <!-- You can repeat the above section for each appointment data entry -->
             </div>

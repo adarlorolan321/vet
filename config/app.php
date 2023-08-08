@@ -169,6 +169,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
+        Ixudra\Curl\CurlServiceProvider::class,
     ])->toArray(),
 
     /*
@@ -183,6 +184,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
+        'Curl'          => Ixudra\Curl\Facades\Curl::class,
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 

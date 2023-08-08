@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('date');
             $table->string('time_start');
             $table->string('time_end');
+            $table->string('service_id');
+            $table->string('payment_status');
             $table->string('status');
             $table->string('type');
             $table->timestamps();

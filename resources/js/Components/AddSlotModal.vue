@@ -1,6 +1,5 @@
 <script setup>
-import { defineProps, defineEmits, ref, computed, watch, onMounted } from 'vue';
-
+import { defineProps, defineEmits, ref, computed, watch, onMounted } from "vue";
 
 import CustomerLayout from "@/Layouts/CustomerLayout.vue";
 import { Head, useForm, router, usePage } from "@inertiajs/vue3";
@@ -9,18 +8,13 @@ import InputLabel from "@/Components/InputLabel.vue";
 
 import TextInput from "@/Components/TextInput.vue";
 
-
-
-
 const user = computed(() => usePage().props.auth.user);
 const errors = computed(() => usePage().props.errors);
-const appointmentData = computed(() => usePage().props.data);
-
+const service = computed(() => usePage().props.service);
 
 const options = ref([
     { value: "New Appointment", label: "New Appointment" },
     { value: "Reschedule", label: "Reschedule" },
-
 ]);
 
 let form = useForm({
@@ -28,9 +22,11 @@ let form = useForm({
     date: null,
     time_start: null,
     time_end: null,
-    status: 'Pending',
+    service_id:null,
+    payment_status:'Partial',
+    status: "Pending",
     type: null,
-    user_id: user.value.id
+    user_id: user.value.id,
 });
 
 const timeOptions = ref([
@@ -45,46 +41,42 @@ const timeOptions = ref([
     { label: "04:00 PM", value: "16:00" },
 ]);
 
-
-
 const addSlotModal = ref(null);
 
 const emit = defineEmits();
 const props = defineProps({
-    data:{
-        type:Object,
-        default:{}
+    data: {
+        type: Object,
+        default: {},
     },
     show: {
         type: Boolean,
         default: false,
     },
-})
-watch([() => props.show, ()=> props.data], () => {
+});
+watch([() => props.show, () => props.data], () => {
     if (props.show && props.data) {
-        form = {...form, ...props.data}
+        form = { ...form, ...props.data };
         openModal();
-    }else if(props.show && !props.data){
-        openModal()
+    } else if (props.show && !props.data) {
+        openModal();
     }
 });
 
-
 function openModal() {
-    addSlotModal.value.style.transform = 'scale(1)';
-    addSlotModal.value.style.display = 'flex';
+    addSlotModal.value.style.transform = "scale(1)";
+    addSlotModal.value.style.display = "flex";
 }
 
 function closeMOdal() {
-    addSlotModal.value.style.transition = '.3s';
-    addSlotModal.value.style.transform = 'scale(0.1)';
+    addSlotModal.value.style.transition = ".3s";
+    addSlotModal.value.style.transform = "scale(0.1)";
     setTimeout(() => {
-        addSlotModal.value.style.display = 'none';
+        addSlotModal.value.style.display = "none";
     }, 300);
-  form.reset();
-    emit('close')
+    form.reset();
+    emit("close");
 }
-
 
 const submit = () => {
     console.log("rolan");
@@ -96,49 +88,77 @@ const submit = () => {
             onSuccess: () => {
                 closeMOdal();
                 form.reset();
-
-            }
-        });
-    }
-    else {
-        form.post(route("customer-apointment.store"), {
-            onError: (error) => {
-                form.errors = error.errors;
             },
-            onSuccess: () => {
-                closeMOdal();
-                form.reset();
-
-            }
         });
+    } else {
+        const amount = 20000;
+        
+        const param2 = "another value";
+
+        const encodedAmount = encodeURIComponent(amount);
+        
+
+        const url = `https://castillet-dental.test/pay?amount=${encodedAmount}&id=${form.id}&user_id=${user.value.id}&date=${form.date}&time_start=${form.time_start}&time_end=${form.time_end}&status=${form.status}&type=${form.type}&payment_status=${form.payment_status}&service_id=${form.service_id}`;
+
+        window.location.href = url;
+        // form.post(route("customer-apointment.store"), {
+        //     onError: (error) => {
+        //         form.errors = error.errors;
+        //     },
+        //     onSuccess: () => {
+        //         closeMOdal();
+        //         form.reset();
+
+        //     }
+        // });
     }
-
 };
-
 </script>
 <template>
     <!-- Modal toggle -->
-
+    <!-- <pre>
+        {{ service }}
+    </pre> -->
 
     <!-- Main modal -->
-    <div ref="addSlotModal" tabindex="-1" aria-hidden="true"
-        class="modal fixed   z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class=" relative w-full max-w-2xl max-h-full">
-
+    <div
+        ref="addSlotModal"
+        tabindex="-1"
+        aria-hidden="true"
+        class="modal fixed z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full"
+    >
+        <div class="relative w-full max-w-2xl max-h-full">
             <!-- Modal content -->
             <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
                 <!-- Modal header -->
-                <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                        {{ form.id?'Edit Appointment': 'Add Appointment' }}
+                <div
+                    class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600"
+                >
+                    <h3
+                        class="text-xl font-semibold text-gray-900 dark:text-white"
+                    >
+                        {{ form.id ? "Edit Appointment" : "Add Appointment" }}
                     </h3>
-                    <button @click="closeMOdal" type="button"
+                    <button
+                        @click="closeMOdal"
+                        type="button"
                         class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                        data-modal-hide="defaultModal">
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        data-modal-hide="defaultModal"
+                    >
+                        <svg
+                            class="w-3 h-3"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 14 14"
+                        >
+                            <path
+                                stroke="currentColor"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                            />
                         </svg>
                         <span class="sr-only">Close modal</span>
                     </button>
@@ -146,43 +166,92 @@ const submit = () => {
                 <!-- Modal body -->
                 <form @submit.prevent="submit">
                     <div class="p-6 space-y-6">
-
                         <div class="d-flex mx-5 gap-3 mb-3">
-                            <div class="mt-4">
+                            <div class="mt-4  w-100">
                                 <InputLabel for="date" value="Date" />
 
-                                <TextInput id="date" type="date" class="mt-1 block w-full"  v-model="form.date" required
-                                    autofocus />
+                                <TextInput
+                                    id="date"
+                                    type="date"
+                                    class="mt-1 block w-full"
+                                    v-model="form.date"
+                                    required
+                                    autofocus
+                                />
 
-                                <InputError class="mt-2" :message="errors.date" />
+                                <InputError
+                                    class="mt-2"
+                                    :message="errors.date"
+                                />
                             </div>
-                            <div class="mt-4">
+                            <div class="mt-4  w-100">
                                 <InputLabel for="time_start" value="Time" />
 
-                                <select v-model="form.time_start"
-                                    class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                                <select
+                                    v-model="form.time_start"
+                                    class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                                >
                                     <option value="">Select an option</option>
-                                    <option v-for="option in timeOptions" :key="option.value" :value="option.value">
+                                    <option
+                                        v-for="option in timeOptions"
+                                        :key="option.id"
+                                        :value="option.id"
+                                    >
                                         {{ option.label }}
                                     </option>
                                 </select>
 
-                                <InputError class="mt-2" :message="form.errors?.password" />
+                                <InputError
+                                    class="mt-2"
+                                    :message="form.errors?.password"
+                                />
                             </div>
-                            <div class="mt-4">
+                            </div>
+                            <div class="d-flex mx-5 gap-3 mb-3">
+                            <div class="mt-4 w-100">
+                                <InputLabel for="time_start" value="Service" />
+
+                                <select
+                                    v-model="form.service_id"
+                                    class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                                >
+                                    <option value="">Select an option</option>
+                                    <option
+                                        v-for="option in service"
+                                        :key="option.id"
+                                        :value="option.id"
+                                    >
+                                        {{ option.name }}
+                                    </option>
+                                </select>
+
+                                <InputError
+                                    class="mt-2"
+                                    :message="form.errors?.password"
+                                />
+                            </div>
+                            <div class="mt-4  w-100">
                                 <InputLabel for="time_start" value="Type" />
 
-                                <select v-model="form.type"
-                                    class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                                <select
+                                    v-model="form.type"
+                                    class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                                >
                                     <option value="">Select an option</option>
-                                    <option v-for="option in options" :key="option.value" :value="option.value">
+                                    <option
+                                        v-for="option in options"
+                                        :key="option.value"
+                                        :value="option.value"
+                                    >
                                         {{ option.label }}
                                     </option>
                                 </select>
 
-                                <InputError class="mt-2" :message="form.errors?.password" />
+                                <InputError
+                                    class="mt-2"
+                                    :message="form.errors?.password"
+                                />
                             </div>
-
 
                             <!-- <PrimaryButton
                         class="add-button"
@@ -193,22 +262,25 @@ const submit = () => {
                         {{ form.id != null? 'Update' : 'Add' }}  
                     </PrimaryButton> -->
                         </div>
-
                     </div>
                     <!-- Modal footer -->
                     <div
-                        class="flex justify-end items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-
-
-                        <secondary-button @click="closeMOdal" type="button" class="mt-12">
+                        class="flex justify-end items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600"
+                    >
+                        <secondary-button
+                            @click="closeMOdal"
+                            type="button"
+                            class="mt-12"
+                        >
                             Cancel
                         </secondary-button>
-                        <primary-button class="add-button" :class="{ 'opacity-25': form.processing }"
-                            :disabled="form.processing " >
-                            {{ form.id != null ? 'Update' : 'Add' }}
+                        <primary-button
+                            class="add-button"
+                            :class="{ 'opacity-25': form.processing }"
+                            :disabled="form.processing"
+                        >
+                            {{ form.id != null ? "Update" : "Add" }}
                         </primary-button>
-
-
 
                         <!-- <button @click="closeMOdal" data-modal-hide="defaultModal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Cancel</button> -->
                     </div>
@@ -228,19 +300,16 @@ const submit = () => {
 }
 
 .modal div {
-    animation: show .3s ease-in;
-
+    animation: show 0.3s ease-in;
 }
 
 @keyframes show {
     from {
         transform: scale(0.6);
-
     }
 
     to {
         transform: scale(1);
     }
-
 }
 </style>
