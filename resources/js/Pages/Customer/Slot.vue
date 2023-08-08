@@ -13,6 +13,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 export default {
     props: {
         data: Object,
+        user: Object
     },
     components: {
         FullCalendar, // make the <FullCalendar> tag available
@@ -23,7 +24,7 @@ export default {
             // Transform the prop data into the events format expected by FullCalendar
             return this.data.data.map((item) => ({
                 
-                title: 'Taken',
+                title: this.user.id == item.user_id ? "You" :'Taken',
                 start: `${item.date}T${item.time_start}`,
                 end: `${item.date}T${item.time_end}`,
             }));

@@ -40,7 +40,7 @@ class DentalServiceController extends Controller
             ->withQueryString();
 
 
-        $data['photo'] = json_decode($data['photo']);
+       
 
 
         $props = [

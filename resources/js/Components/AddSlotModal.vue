@@ -194,8 +194,8 @@ const submit = () => {
                                     <option value="">Select an option</option>
                                     <option
                                         v-for="option in timeOptions"
-                                        :key="option.id"
-                                        :value="option.id"
+                                        :key="option.value"
+                                        :value="option.value"
                                     >
                                         {{ option.label }}
                                     </option>
@@ -208,7 +208,7 @@ const submit = () => {
                             </div>
                             </div>
                             <div class="d-flex mx-5 gap-3 mb-3">
-                            <div class="mt-4 w-100">
+                            <div class="w-100">
                                 <InputLabel for="time_start" value="Service" />
 
                                 <select
@@ -230,7 +230,7 @@ const submit = () => {
                                     :message="form.errors?.password"
                                 />
                             </div>
-                            <div class="mt-4  w-100">
+                            <div class=" w-100">
                                 <InputLabel for="time_start" value="Type" />
 
                                 <select

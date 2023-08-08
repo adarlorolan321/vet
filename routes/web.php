@@ -48,7 +48,7 @@ Route::get('/dashboard', function () {
     }
     else{
         $service = DentalService::get();
-        $data = Apointment::where('user_id', auth()->user()->id)->get();
+        $data = Apointment::with(['user','service'])->where('user_id', auth()->user()->id)->get();
         return Inertia::render('Customer/Index', [
             'data' => $data,
             'service' =>$service

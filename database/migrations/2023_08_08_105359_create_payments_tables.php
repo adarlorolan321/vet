@@ -11,18 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('apointments', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id');
-            $table->string('date');
-            $table->string('time_start');
-            $table->string('time_end');
-            $table->string('payment_amount');
+            $table->string('user_id')->foreign();
+            $table->string('amount');
             $table->string('payment_method');
-            $table->string('service_id');
             $table->string('payment_status');
-            $table->string('status');
-            $table->string('type');
+            $table->string('apointment_id');
             $table->timestamps();
         });
     }
@@ -32,8 +27,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('apointments', function (Blueprint $table) {
-            Schema::dropIfExists('apointments');
+        Schema::table('payments', function (Blueprint $table) {
+            Schema::dropIfExists('payments');
         });
     }
 };

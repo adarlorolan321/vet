@@ -10,6 +10,7 @@ use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use App\Http\Requests\Apointment\UpdateApointmentRequest;
 use App\Models\Admin\DentalService;
+use App\Models\Payment\Payment;
 use Carbon\Carbon;
 use Ixudra\Curl\Facades\Curl;
 use Illuminate\Support\Facades\URL;
@@ -19,7 +20,7 @@ class CustomerAppoinmentController extends Controller
 
     public function pay(Request $request)
     {
-       
+
 
         $service = DentalService::where('id', $request->query('service_id'))->first();
         // dd( $service );
@@ -43,6 +44,7 @@ class CustomerAppoinmentController extends Controller
             'service_id' => $request->query('service_id'),
             'payment_status' => $request->query('payment_status'),
 
+
         ]);
 
         $amount = intval($service->price); // Parses 'value1' to an integer
@@ -53,7 +55,7 @@ class CustomerAppoinmentController extends Controller
                     'line_items' => [
                         [
                             'currency' => 'PHP',
-                            'amount' =>  intval($service->price . '00'),
+                            'amount' =>  intval($service->price . '00') / 2,
                             'description' => $service->description,
                             'name' => $service->name,
                             'quantity' => 1,
@@ -90,12 +92,28 @@ class CustomerAppoinmentController extends Controller
     }
     public function store_apointment(Request $request)
     {
+        $sessionID = \Session::get('session_id');
 
+        $response = Curl::to("https://api.paymongo.com/v1/checkout_sessions/$sessionID")
+            ->withHeader('Content-type: application/json')
+            ->withHeader('accept: application/json')
+            ->withHeader('Authorization: Basic c2tfdGVzdF9ZRXBWVVF4S1VaSnZDdWFuejY0VFExeHg6')
+            ->asJson()
+            ->get();
+        // dd($response->data->attributes->line_items[0]->amount);
 
-        $hasAppointment = Apointment::where('user_id', auth()->user()->id)->first();
-
+        
+      
 
         $validatedData = $request->query();
+        $amountInCents = $response->data->attributes->line_items[0]->amount;
+        $paymentAmount = number_format($amountInCents / 100, 2, '.', ''); // Convert cents to decimal format
+        // dd($paymentAmount);
+
+        $validatedData['payment_method'] = $response->data->attributes->payment_method_used;
+
+
+        $validatedData['payment_amount'] = $paymentAmount;
 
         // Calculate the end time of the new appointment
         $startTime = $validatedData['time_start'];
@@ -108,9 +126,19 @@ class CustomerAppoinmentController extends Controller
         $validatedData['time_end'] = $endTime;
         $validatedData['status'] = 'Pending';
 
-        //    dd($validatedData);
+        
+
         $newAppointment = Apointment::create($validatedData);
-        sleep(1);
+       
+        Payment::create([
+            'user_id' => auth()->user()->id,
+            'apointment_id' => $newAppointment->id,
+            'amount' => $paymentAmount,
+            'payment_method' => $validatedData['payment_method'],
+            'payment_status' => 'Partial Payment',
+        ]);
+
+       
 
         if ($request->wantsJson()) {
             return new ApointmentListResource($newAppointment);
@@ -131,9 +159,7 @@ class CustomerAppoinmentController extends Controller
             ->with([])
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
-                    // filter result
-                    // $query->where('column', 'like', '%' . $queryString . '%')
-                    //     ->orWhere('column', 'like', '%' . $queryString . '%');
+                    
                 }
             })
             ->when(count($sort) == 1, function ($query) use ($sort, $order) {

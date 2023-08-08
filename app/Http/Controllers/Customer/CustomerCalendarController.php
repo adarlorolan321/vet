@@ -35,6 +35,7 @@ class CustomerCalendarController extends Controller
             ->withQueryString();
 
         $props = [
+            'user' => auth()->user(),
             'data' => ApointmentListResource::collection($data),
             'params' => $request->all(),
         ];
