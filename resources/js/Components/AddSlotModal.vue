@@ -129,7 +129,7 @@ const submit = () => {
     >
         <div class="relative w-full max-w-2xl max-h-full">
             <!-- Modal content -->
-            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <div class="appointment-form bg-secondary h-100 d-flex flex-column justify-content-center text-center p-5 wow zoomIn">
                 <!-- Modal header -->
                 <div
                     class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600"
@@ -168,12 +168,13 @@ const submit = () => {
                     <div class="p-6 space-y-6">
                         <div class="d-flex mx-5 gap-3 mb-3">
                             <div class="mt-4  w-100">
-                                <InputLabel for="date" value="Date" />
+                                <InputLabel for="time_start fc-event-title" value="Date" style="color: white;"/> 
 
-                                <TextInput
+                                <input
+                                   placeholder="Date"
                                     id="date"
                                     type="date"
-                                    class="mt-1 block w-full"
+                                    class="form-control bg-light border-0"
                                     v-model="form.date"
                                     required
                                     autofocus
@@ -185,11 +186,11 @@ const submit = () => {
                                 />
                             </div>
                             <div class="mt-4  w-100">
-                                <InputLabel for="time_start" value="Time" />
+                                <InputLabel for="time_start fc-event-title" value="Time" style="color: white;"/>
 
                                 <select
                                     v-model="form.time_start"
-                                    class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                                    class="form-select bg-light border-0"
                                 >
                                     <option value="">Select an option</option>
                                     <option
@@ -209,11 +210,11 @@ const submit = () => {
                             </div>
                             <div class="d-flex mx-5 gap-3 mb-3">
                             <div class="w-100">
-                                <InputLabel for="time_start" value="Service" />
+                                <InputLabel for="time_start" value="Service" style="color: white;"/>
 
                                 <select
                                     v-model="form.service_id"
-                                    class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                                    class="form-select bg-light border-0"
                                 >
                                     <option value="">Select an option</option>
                                     <option
@@ -231,11 +232,11 @@ const submit = () => {
                                 />
                             </div>
                             <div class=" w-100">
-                                <InputLabel for="time_start" value="Type" />
+                                <InputLabel for="time_start" value="Type" style="color: white;"/>
 
                                 <select
                                     v-model="form.type"
-                                    class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                                    class="form-select bg-light border-0"
                                 >
                                     <option value="">Select an option</option>
                                     <option

@@ -67,80 +67,14 @@ const closeMOdal = () => {
 </script>
 
 <template>
-    <CustomerLayout>
+   
         <AddSlotModal
             @close="closeMOdal"
             :data="form_data"
             :service="form_data"
             :show="isModalShow"
         ></AddSlotModal>
-        <div class="flex justify-end mr-56">
-            <PrimaryButton @click="openModal" type="button">Add</PrimaryButton>
-        </div>
-
-        <div class="d-flex justify-center align-middle mt-20">
-            <div
-                class="bg-white rounded-lg shadow-md p-6 w-full max-w-xl mx-auto"
-            >
-                <h2 class="text-xl font-semibold mb-4">Appointment Schedule</h2>
-                <div class="">
-                    <template v-for="data in appointmentData">
-                        <div class="d-flex justify-end">
-                            
-                        <div class="space-x-2">
-                            <a
-                                href="javascript:void(0)"
-                                class="text-blue-500 hover:underline"
-                                >Edit</a
-                            >
-                            <a
-                                href="javascript:void(0)"
-                                class="text-red-500 hover:underline"
-                                >Delete</a
-                            >
-                        </div>
-                        </div>
-                        <hr>
-                        <h2 class="text-lg font-semibold ">Appointment Details</h2>
-                        <div class="d-flex">
-                            <div class="text-gray-500 font-semibold">Date  - </div> <div class="ml-5">{{ data.date }}</div>
-                        </div>
-                        <div class="d-flex">
-                            <div class="text-gray-500 font-semibold">Time  - </div> <div class="ml-5">{{ data.time_start }}</div>
-                        </div>
-                        <div class="d-flex">
-                            <div class="text-gray-500 font-semibold">Type  - </div> <div class="ml-5">{{ data.type }}</div>
-                        </div>
-                        <div class="d-flex">
-                            <div class="text-gray-500 font-semibold">Service  - </div> <div class="ml-5">{{ data.service.name }}</div>
-                        </div>
-                        <div class="d-flex">
-                            <div class="text-gray-500 font-semibold">Service Duration  - </div> <div class="ml-5">{{ data.service.duration }}</div>
-                        </div>
-                        <div class="d-flex">
-                            <div class="text-gray-500 font-semibold">Service Price  - </div> <div class="ml-5">{{ data.service.price }}</div>
-                        </div>
-                        <div class="d-flex">
-                            <div class="text-gray-500 font-semibold">Status  - </div> <div class="ml-5">{{ data.status }}</div>
-                        </div>
-                        <hr>
-                        <h2 class="text-lg font-semibold ">Payment Details</h2>
-                        <div class="d-flex">
-                            <div class="text-gray-500 font-semibold">Payment amount  - </div> <div class="ml-5">{{ data.payment_amount}}</div>
-                        </div>
-                        <div class="d-flex">
-                            <div class="text-gray-500 font-semibold">Payment Status  - </div> <div class="ml-5">{{ data.payment_status }}</div>
-                        </div>
-                        <div class="d-flex">
-                            <div class="text-gray-500 font-semibold">Payment Method  - </div> <div class="ml-5">{{ data.payment_method }}</div>
-                        </div>
-                       
-                        
-                        
-                    </template>
-                    <!-- You can repeat the above section for each appointment data entry -->
-                </div>
-            </div>
-        </div>
-    </CustomerLayout>
+      
+            <a href="javascript:void(0);" class="btn btn-primary bg-green py-md-3 px-md-5 me-3 animated slideInLeft"  @click="openModal" type="button">Appointment</a >
+        
 </template>
