@@ -25,9 +25,7 @@ class UnavalableDatesController extends Controller
             ->with([])
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
-                    // filter result
-                    // $query->where('column', 'like', '%' . $queryString . '%')
-                    //     ->orWhere('column', 'like', '%' . $queryString . '%');
+                  
                 }
             })
             ->where('type','!=', 'New Appointment')
@@ -58,7 +56,7 @@ class UnavalableDatesController extends Controller
     {
         $hasAppointment = Apointment::where('user_id', auth()->user()->id)->first();
 
-
+       
         $validatedData = $request->validated();
 
         // Calculate the end time of the new appointment
@@ -77,6 +75,11 @@ class UnavalableDatesController extends Controller
        
 
         $validatedData['time_end'] = $endTime;
+        $validatedData['payment_amount'] = '0.00';
+        $validatedData['payment_method'] = 'N/A';
+        $validatedData['service_id'] = 'N/A';
+        $validatedData['payment_status'] = 'N/A';
+
         $validatedData['status'] = 'Pending';
 
         //    dd($validatedData);

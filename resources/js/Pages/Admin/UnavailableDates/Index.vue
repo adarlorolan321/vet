@@ -85,7 +85,7 @@ const submit = () => {
             <form @submit.prevent="submit">
                 <div class="d-flex mx-5 gap-3 mb-3">
                     <div class="mt-4">
-                        <InputLabel for="date" value="Date" />
+                        <InputLabel for="date"  value="Date" />
 
                         <TextInput
                             id="date"
@@ -98,25 +98,7 @@ const submit = () => {
 
                         <InputError class="mt-2" :message="form.errors.date" />
                     </div>
-                    <!-- <div class="mt-4">
-                        <InputLabel for="time_start" value="Time" />
-
-                        <select v-model="form.time_start" class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
-                            <option value="">Select an option</option>
-                            <option
-                                v-for="option in timeOptions"
-                                :key="option.value"
-                                :value="option.value"
-                            >
-                                {{ option.label }}
-                            </option>
-                        </select>
-
-                        <InputError
-                            class="mt-2"
-                            :message="form.errors.password"
-                        />
-                    </div> -->
+                  
                     <div class="mt-4">
                         <InputLabel for="time_start" value="Type" />
 
@@ -153,8 +135,80 @@ const submit = () => {
     <div class="my-4">
       
     </div>
-    
-    <table class="w-full border-collapse">
+    <div class="bg-white shadow-md rounded my-6 overflow-x-auto">
+                <table class="min-w-full leading-normal">
+                    <thead>
+                        <tr>
+                            <th
+                                scope="col"
+                                class="px-5 py-3 bg-green-template text-white font-semibold uppercase tracking-wider"
+                            >
+                            Date
+                            </th>
+                            <th
+                                scope="col"
+                                class="px-5 py-3 bg-green-template text-white font-semibold uppercase tracking-wider"
+                            >
+                            Time
+                            </th>
+                            <th
+                                scope="col"
+                                class="px-5 py-3 bg-green-template text-white font-semibold uppercase tracking-wider"
+                            >
+                            Type
+                            </th>
+                            
+                            <th
+                                scope="col"
+                                class="px-5 py-3 bg-green-template text-white font-semibold uppercase tracking-wider"
+                            >
+                                Action
+                            </th>
+                            <!-- Add more table headers if needed -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Replace the example data with your dynamic data -->
+                        <tr v-for="data in appointmentData.data" :key="data">
+                            <td
+                                class="px-5 py-3 border-b border-gray-200 bg-white text-sm"
+                            >
+                                {{ data.date }}
+                            </td>
+                            <td
+                                class="px-5 py-3 border-b border-gray-200 bg-white text-sm"
+                            >
+                                {{ data.time_start }}
+                            </td>
+                            <td
+                                class="px-5 py-3 border-b border-gray-200 bg-white text-sm"
+                            >
+                                {{ data.type }}
+                            </td>
+                           
+                            <td
+                                class="px-5 py-3 border-b border-gray-200 bg-white text-sm"
+                            >
+                                <a
+                                    href="javascript:void(0)"
+                                    class="text-blue-500"
+                                    @click="editServices(data)"
+                                    >Edit</a
+                                >
+                                |
+                                <a
+                                    href="javascript:void(0)"
+                                    class="text-red-500"
+                                    @click="deleteServices(data.id)"
+                                    >Delete</a
+                                >
+                            </td>
+                            <!-- Add more table data rows if needed -->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+    <!-- <table class="w-full border-collapse">
       <thead>
         <tr class="bg-gray-100">
           <th class="py-2 px-4 border">Date</th>
@@ -177,7 +231,7 @@ const submit = () => {
         </tr>
         
       </tbody>
-    </table>
+    </table> -->
   </div>
     </AuthenticatedLayout>
 </template>

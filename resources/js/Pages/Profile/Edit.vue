@@ -1,9 +1,10 @@
 <script setup>
 import CustomerLayout from '@/Layouts/CustomerLayout.vue';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import DeleteUserForm from './Partials/DeleteUserForm.vue';
 import UpdatePasswordForm from './Partials/UpdatePasswordForm.vue';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, usePage } from '@inertiajs/vue3';
 
 defineProps({
     mustVerifyEmail: {
@@ -13,15 +14,20 @@ defineProps({
         type: String,
     },
 });
+
+const user = usePage().props.auth.user;
+
+const Layouts = usePage().props.auth.user.role == 'Admin'?AuthenticatedLayout:CustomerLayout
+
+
 </script>
 
 <template>
     <Head title="Profile" />
 
-    <CustomerLayout>
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Profile</h2>
-        </template>
+    <component :is="Layouts">
+      
+        
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
@@ -42,5 +48,5 @@ defineProps({
                 </div>
             </div>
         </div>
-    </CustomerLayout>
+    </component>
 </template>

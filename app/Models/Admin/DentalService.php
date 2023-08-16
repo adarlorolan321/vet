@@ -32,4 +32,6 @@ class DentalService extends Model  implements HasMedia
     
         return $images;
     }
+
+   
 }

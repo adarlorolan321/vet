@@ -23,34 +23,11 @@ let form = useForm({
     time_end: null,
     status: "Pending",
     type: null,
-    user_id: user.value.id,
+    
 });
 
-const editTime = (data) => {
-    //    form.id = data.id,
-    //    form.date = data.date,
-    //    form.time_start = data.time_start,
-    //    form.time_end = data.time_end,
-    //    form.status = data.status,
-    //    form.type = data.type,
-    //    form.user_id = data.user_id
-    form_data = { ...form_data, ...data };
-    isModalShow.value = true;
 
-    console.log(form);
-};
 
-const timeOptions = ref([
-    { label: "08:00 AM", value: "08:00" },
-    { label: "09:00 AM", value: "09:00" },
-    { label: "10:00 AM", value: "10:00" },
-    { label: "11:00 AM", value: "11:00" },
-    { label: "12:00 PM", value: "12:00" },
-    { label: "01:00 PM", value: "13:00" },
-    { label: "02:00 PM", value: "14:00" },
-    { label: "03:00 PM", value: "15:00" },
-    { label: "04:00 PM", value: "16:00" },
-]);
 const isModalShow = ref(false);
 
 const deleteTime = (data) => {

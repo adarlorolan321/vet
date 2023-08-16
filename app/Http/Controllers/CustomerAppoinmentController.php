@@ -23,8 +23,6 @@ class CustomerAppoinmentController extends Controller
 
 
         $service = DentalService::where('id', $request->query('service_id'))->first();
-        // dd( $service );
-
         $hasAppointment = Apointment::where('user_id', auth()->user()->id)->first();
         if ($hasAppointment) {
             return redirect()->route('dashboard')->withErrors([
@@ -35,7 +33,7 @@ class CustomerAppoinmentController extends Controller
         $successUrl = URL::route('store_apointment', [
 
             'id' => $request->query('id'),
-            'user_id' => $request->query('user_id'),
+            
             'date' =>  $request->query('date'),
             'time_start' => $request->query('time_start'),
             'time_end' => $request->query('time_end'),
@@ -122,7 +120,7 @@ class CustomerAppoinmentController extends Controller
 
 
 
-
+        $validatedData['user_id'] = auth()->user()->id;
         $validatedData['time_end'] = $endTime;
         $validatedData['status'] = 'Pending';
 
@@ -144,7 +142,7 @@ class CustomerAppoinmentController extends Controller
             return new ApointmentListResource($newAppointment);
         }
 
-        return redirect()->route('dashboard')->with('success', 'Appointment created successfully');
+        return redirect()->route('home')->with('success', 'Appointment created successfully');
     }
     public function index(Request $request)
     {
@@ -209,8 +207,9 @@ class CustomerAppoinmentController extends Controller
             ]);
         }
 
-
+      
         $validatedData['time_end'] = $endTime;
+        $validatedData['user_id'] = auth()->user()->id;
         $validatedData['status'] = 'Pending';
 
         //    dd($validatedData);

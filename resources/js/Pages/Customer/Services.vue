@@ -45,9 +45,16 @@ const data = computed(() => {
                                 :class="{ active: index === 0 }"
                             >
                                 <img
+                                    v-if="photo.src"
                                     :src="photo.src"
                                     class="w-full h-48 object-cover"
                                     alt="Placeholder 1"
+                                />
+                                <img
+                                    v-else
+                                    src="/img/sevice-1.jpg"
+                                    class="w-full h-48 object-cover"
+                                    alt="Service"
                                 />
                             </div>
                         </div>
@@ -80,10 +87,16 @@ const data = computed(() => {
                         <h5 class="text-lg font-bold mb-2">{{ item.name }}</h5>
                         <p class="text-gray-600">{{ item.description }}</p>
                         <div class="d-flex gap-2">
-                            <p class="text-gray-600 text-bold p-0"><span class="font-bold">PRICE: </span>{{ item.price }}</p> |
-                        <p class="text-gray-600 text-bold p-0"><span class="font-bold">DURATION: </span>{{ item.duration }}</p>
+                            <p class="text-gray-600 text-bold p-0">
+                                <span class="font-bold">PRICE: </span
+                                >{{ item.price }}
+                            </p>
+                            |
+                            <p class="text-gray-600 text-bold p-0">
+                                <span class="font-bold">DURATION: </span
+                                >{{ item.duration }}
+                            </p>
                         </div>
-                      
                     </div>
                 </div>
 

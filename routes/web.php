@@ -30,28 +30,34 @@ if (env('APP_ENV') === 'dev') {
 }
 
 Route::get('/', function () {
+    $auth = auth()->user();
     $service = DentalService::get();
+    foreach ($service as $servicing) {
+        $servicing['photo'] = json_decode($servicing['photo']);
+    }
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
         'service' =>$service,
+        'auth' => $auth,
     ]);
-});
+})->name('home');
 
 Route::get('/dashboard', function () {
-    // dd(auth()->user()->hasRole('Dentist'));
-    if(auth()->user()->hasRole('Admin')){
+    
+    if(auth()->user()->role == 'Admin'){
         return Inertia::render('Dashboard');
     }
-    if(auth()->user()->hasRole('Dentist')){
-        return Inertia::render('Admin/Dashboard');
-    }
+   
     else{
         $service = DentalService::get();
+        foreach ($service as $servicing) {
+            $servicing['photo'] = json_decode($servicing['photo']);
+        }
         $data = Apointment::with(['user','service'])->where('user_id', auth()->user()->id)->get();
-        return Inertia::render('Customer/Index', [
+        return Inertia::render('Welcome', [
             'data' => $data,
             'service' =>$service
         ]);

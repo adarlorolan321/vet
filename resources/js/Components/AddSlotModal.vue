@@ -26,7 +26,7 @@ let form = useForm({
     payment_status:'Partial',
     status: "Pending",
     type: null,
-    user_id: user.value.id,
+    // user_id: user.value.id,
 });
 
 const timeOptions = ref([
@@ -98,19 +98,10 @@ const submit = () => {
         const encodedAmount = encodeURIComponent(amount);
         
 
-        const url = `https://castillet-dental.test/pay?amount=${encodedAmount}&id=${form.id}&user_id=${user.value.id}&date=${form.date}&time_start=${form.time_start}&time_end=${form.time_end}&status=${form.status}&type=${form.type}&payment_status=${form.payment_status}&service_id=${form.service_id}`;
+        const url = `https://castillet-dental.test/pay?amount=${encodedAmount}&id=${form.id}&date=${form.date}&time_start=${form.time_start}&time_end=${form.time_end}&status=${form.status}&type=${form.type}&payment_status=${form.payment_status}&service_id=${form.service_id}`;
 
         window.location.href = url;
-        // form.post(route("customer-apointment.store"), {
-        //     onError: (error) => {
-        //         form.errors = error.errors;
-        //     },
-        //     onSuccess: () => {
-        //         closeMOdal();
-        //         form.reset();
-
-        //     }
-        // });
+  
     }
 };
 </script>

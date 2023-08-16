@@ -5,6 +5,9 @@
 .bg-green-template{
   background-color: #2eaf7d;
 }
+.text-green{
+  color: #2eaf7d;
+}
 .add-button {
     margin: 48px 0 0 0;
     height: 40px;

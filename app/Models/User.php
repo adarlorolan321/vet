@@ -50,6 +50,10 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    protected $appends = [
+       'role'
+      ];
+
     public function getRoleAttribute()
     {
         return $this->getRoleNames()->implode(', ');
