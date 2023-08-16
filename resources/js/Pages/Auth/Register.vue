@@ -130,59 +130,42 @@ const submit = () => {
                 <div class="mt-4">
                     <InputLabel for="province" value="Province" />
 
-                    <select
-                        v-model="form.province"
-                        class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
-                        @change="getCity"
-                    >
-                        <option value="">Select an option</option>
-                        <option
-                            v-for="option in provinceOptions"
-                            :key="option.code"
-                            :value="option.code"
-                        >
-                            {{ option.name }}
-                        </option>
-                    </select>
+                    <TextInput
+                    id="province"
+                    type="text"
+                    class="mt-1 block w-full"
+                    v-model="form.province"
+                    required
+                    autocomplete="province"
+                />
 
                     <InputError class="mt-2" :message="form.errors.name" />
                 </div>
                 <div class="mt-4">
                     <InputLabel for="city" value="City/Municipality" />
 
-                    <select
-                        v-model="form.city"
-                        @change="getBarangay"
-                        class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
-                    >
-                        <option value="">Select an option</option>
-                        <option
-                            v-for="option in cityOptions"
-                            :key="option.code"
-                            :value="option.code"
-                        >
-                            {{ option.name }}
-                        </option>
-                    </select>
+                    <TextInput
+                    id="province"
+                    type="text"
+                    class="mt-1 block w-full"
+                    v-model="form.city"
+                    required
+                    autocomplete="province"
+                />
 
                     <InputError class="mt-2" :message="form.errors.name" />
                 </div>
                 <div class="mt-4">
                     <InputLabel for="barangay" value="Barangay" />
 
-                    <select
-                        v-model="form.barangay"
-                        class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
-                    >
-                        <option value="">Select an option</option>
-                        <option
-                            v-for="option in barangayOptions"
-                            :key="option.code"
-                            :value="option.code"
-                        >
-                            {{ option.name }}
-                        </option>
-                    </select>
+                    <TextInput
+                    id="province"
+                    type="text"
+                    class="mt-1 block w-full"
+                    v-model="form.barangay"
+                    required
+                    autocomplete="province"
+                />
 
                     <InputError class="mt-2" :message="form.errors.name" />
                 </div>

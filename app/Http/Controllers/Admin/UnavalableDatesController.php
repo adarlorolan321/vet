@@ -25,11 +25,10 @@ class UnavalableDatesController extends Controller
             ->with([])
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
-                  
                 }
             })
-            ->where('type','!=', 'New Appointment')
-            ->where('type','!=', 'Reschedule')
+            ->where('type', '!=', 'New Appointment')
+            ->where('type', '!=', 'Reschedule')
             ->when(count($sort) == 1, function ($query) use ($sort, $order) {
                 $query->orderBy($sort[0], $order);
             })
@@ -56,23 +55,22 @@ class UnavalableDatesController extends Controller
     {
         $hasAppointment = Apointment::where('user_id', auth()->user()->id)->first();
 
-       
+
         $validatedData = $request->validated();
 
         // Calculate the end time of the new appointment
         $startTime = $validatedData['time_start'];
 
-        if($validatedData['type'] =='Half Day'){
+        if ($validatedData['type'] == 'Half Day') {
             $endTime = date('H:i', strtotime('+4 hour', strtotime($startTime)));
-        }
-        else{
+        } else {
             $endTime = date('H:i', strtotime('+9 hour', strtotime($startTime)));
         }
 
-        
-       
 
-       
+
+
+
 
         $validatedData['time_end'] = $endTime;
         $validatedData['payment_amount'] = '0.00';
@@ -90,6 +88,17 @@ class UnavalableDatesController extends Controller
             return new ApointmentListResource($newAppointment);
         }
 
+        return redirect()->back();
+    }
+    public function destroy(Request $request, string $id)
+    {
+        $data = Apointment::findOrFail($id);
+        $data->delete();
+        sleep(1);
+
+        if ($request->wantsJson()) {
+            return response(null, 204);
+        }
         return redirect()->back();
     }
 }

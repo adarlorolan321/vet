@@ -22,8 +22,15 @@ class PatientController extends Controller
             ->with([])
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
+                    $query->where('name', 'like', '%' . $queryString . '%')
+                    ->orWhere('mobile_no', 'like', '%' . $queryString . '%')
+                    ->orWhere('email', 'like', '%' . $queryString . '%');
+
                 }
             })
+            ->where('email', "!=", 'admin@admin.com')
+            ->where('email', "!=", 'dentist@admin.com')
+          
             ->when(count($sort) == 1, function ($query) use ($sort, $order) {
                 $query->orderBy($sort[0], $order);
             })
@@ -48,5 +55,16 @@ class PatientController extends Controller
         }
 
         return Inertia::render('Admin/Patient/Index', $props);
+    }
+    public function destroy(Request $request, string $id)
+    {
+        $data = User::findOrFail($id);
+        $data->delete();
+        sleep(1);
+
+        if ($request->wantsJson()) {
+            return response(null, 204);
+        }
+        return redirect()->back();
     }
 }

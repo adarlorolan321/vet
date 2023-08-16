@@ -1,6 +1,6 @@
 <script>
 import CustomerLayout from "@/Layouts/CustomerLayout.vue";
-
+import Appointment from "../Customer/Index.vue";
 export default {
     props: {
         data: Object,
@@ -44,7 +44,7 @@ const data = computed(() => {
                                 Discover Premium Dental Services Tailored Just for You
                             </h1>
                         </div>
-                        <div class="flex justify-center ">
+                        <div class="flex justify-center " v-if="data">
                             <div
                                 class="bg-white shadow-lg rounded-lg p-6 w-100 mx-10"
                             >
@@ -93,6 +93,22 @@ const data = computed(() => {
                                     <strong>Status:</strong> {{ data.status }}
                                 </p>
                                 <p><strong>Type:</strong> {{ data.type }}</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-center " v-else>
+                            <div
+                                class="bg-white shadow-lg rounded-lg p-6 w-100 mx-10"
+                            >
+                                <h2 class="text-xl text-center font-semibold mb-4">
+                                   No Appointment, Add one
+                                </h2>
+                                <hr>
+                                <div class="text-center">
+                                    <Appointment></Appointment>
+
+                                </div>
+
+                                
                             </div>
                         </div>
                     </div>

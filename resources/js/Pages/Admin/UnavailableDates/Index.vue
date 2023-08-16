@@ -5,36 +5,34 @@ import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
+import FlatPickr from "flatpickr";
 
-
-import {ref, computed} from 'vue'
+import { ref, computed } from "vue";
 const user = computed(() => usePage().props.auth.user);
-const  appointmentData  = computed(() => usePage().props.data);
+const appointmentData = computed(() => usePage().props.data);
 const error = computed(() => usePage().props.errors);
 
-
-
 let form = useForm({
-    id:null,
+    id: null,
     date: null,
-    time_start: '08:00',
+    time_start: "08:00",
     time_end: null,
-    status: 'Pending',
+    status: "Pending",
     type: null,
-    user_id: user.value.id
+    user_id: user.value.id,
 });
 
-const editTime =(data)=>{
-   form.id = data.id,
-   form.date = data.date,
-   form.time_start = data.time_start,
-   form.time_end = data.time_end,
-   form.status = data.status,
-   form.type = data.type,
-   form.user_id = data.user_id
-   
-   console.log(form);
-}
+const editTime = (data) => {
+    (form.id = data.id),
+        (form.date = data.date),
+        (form.time_start = data.time_start),
+        (form.time_end = data.time_end),
+        (form.status = data.status),
+        (form.type = data.type),
+        (form.user_id = data.user_id);
+
+    console.log(form);
+};
 
 const timeOptions = ref([
     { label: "08:00 AM", value: "08:00" },
@@ -51,42 +49,56 @@ const timeOptions = ref([
 const options = ref([
     { value: "Whole Day", label: "Whole Day" },
     { value: "Half Day", label: "Half Day" },
-   
 ]);
 
-const deleteTime = (data) => {
-    form.delete(route("customer-apointment.destroy", data));
-}
+const deleteServices = (data) => {
+    form.delete(route("unavailable-dates.destroy", data));
+};
 
 const submit = () => {
     console.log("rolan");
-    if(form.id != null){
-        form.patch(route("customer-apointment.update",{id:form.id}), {
-        onError: (error) => {
-            this.form.errors = error.errors;
-        },
-    });
-    }
-    else{
+    if (form.id != null) {
+        form.patch(route("customer-apointment.update", { id: form.id }), {
+            onError: (error) => {
+                this.form.errors = error.errors;
+            },
+        });
+    } else {
+        console.log(form);
+
         form.post(route("unavailable-dates.store"), {
-        onError: (error) => {
-            this.form.errors = error.errors;
-        },
-    });
+            onSuccess: (data) => {
+                form = {
+                    id: null,
+                    date: null,
+                    time_start: "08:00",
+                    time_end: null,
+                    status: "Pending",
+                    type: null,
+                    user_id: user.value.id,
+                };
+            },
+
+            onError: (error) => {
+                this.form.errors = error.errors;
+            },
+        });
     }
-    
 };
 </script>
 
 <template>
     <AuthenticatedLayout>
-     
         <div class="d-flex justify-center mt-2">
+            <FlatPickr
+                            ref="refFlatPicker"
+                            class="flat-picker-custom-style"
+                        />
             <form @submit.prevent="submit">
                 <div class="d-flex mx-5 gap-3 mb-3">
                     <div class="mt-4">
-                        <InputLabel for="date"  value="Date" />
-
+                        <InputLabel for="date" value="Date" />
+                       
                         <TextInput
                             id="date"
                             type="date"
@@ -98,11 +110,14 @@ const submit = () => {
 
                         <InputError class="mt-2" :message="form.errors.date" />
                     </div>
-                  
-                    <div class="mt-4">
+
+                    <div class="mt-5">
                         <InputLabel for="time_start" value="Type" />
 
-                        <select v-model="form.type" class="mt-1  w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                        <select
+                            v-model="form.type"
+                            class="form-control bg-white border-1"
+                        >
                             <option value="">Select an option</option>
                             <option
                                 v-for="option in options"
@@ -119,23 +134,19 @@ const submit = () => {
                         />
                     </div>
 
-                    
                     <PrimaryButton
-                        class="add-button"
+                        class="add-button mt-10"
                         :class="{ 'opacity-25': form.processing }"
                         :disabled="form.processing"
-
                     >
-                        {{ form.id != null? 'Update' : 'Add' }}  
+                        {{ form.id != null ? "Update" : "Add" }}
                     </PrimaryButton>
                 </div>
             </form>
         </div>
         <div class="max-w-4xl mx-auto">
-    <div class="my-4">
-      
-    </div>
-    <div class="bg-white shadow-md rounded my-6 overflow-x-auto">
+            <div class="my-4"></div>
+            <div class="bg-white shadow-md rounded my-6 overflow-x-auto">
                 <table class="min-w-full leading-normal">
                     <thead>
                         <tr>
@@ -143,21 +154,21 @@ const submit = () => {
                                 scope="col"
                                 class="px-5 py-3 bg-green-template text-white font-semibold uppercase tracking-wider"
                             >
-                            Date
+                                Date
                             </th>
                             <th
                                 scope="col"
                                 class="px-5 py-3 bg-green-template text-white font-semibold uppercase tracking-wider"
                             >
-                            Time
+                                Time
                             </th>
                             <th
                                 scope="col"
                                 class="px-5 py-3 bg-green-template text-white font-semibold uppercase tracking-wider"
                             >
-                            Type
+                                Type
                             </th>
-                            
+
                             <th
                                 scope="col"
                                 class="px-5 py-3 bg-green-template text-white font-semibold uppercase tracking-wider"
@@ -185,30 +196,30 @@ const submit = () => {
                             >
                                 {{ data.type }}
                             </td>
-                           
+
                             <td
                                 class="px-5 py-3 border-b border-gray-200 bg-white text-sm"
                             >
                                 <a
                                     href="javascript:void(0)"
-                                    class="text-blue-500"
+                                    class="text-blue-500 mr-2"
                                     @click="editServices(data)"
-                                    >Edit</a
-                                >
-                                |
+                                    ><i class="fa fa-edit text-primary pt-1"></i
+                                ></a>
+
                                 <a
                                     href="javascript:void(0)"
                                     class="text-red-500"
                                     @click="deleteServices(data.id)"
-                                    >Delete</a
-                                >
+                                    ><i class="fa fa-trash text-danger pt-1"></i
+                                ></a>
                             </td>
                             <!-- Add more table data rows if needed -->
                         </tr>
                     </tbody>
                 </table>
             </div>
-    <!-- <table class="w-full border-collapse">
+            <!-- <table class="w-full border-collapse">
       <thead>
         <tr class="bg-gray-100">
           <th class="py-2 px-4 border">Date</th>
@@ -232,6 +243,6 @@ const submit = () => {
         
       </tbody>
     </table> -->
-  </div>
+        </div>
     </AuthenticatedLayout>
 </template>

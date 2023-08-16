@@ -147,16 +147,20 @@ let {
                             >
                                 <a
                                     href="javascript:void(0)"
-                                    class="text-blue-500"
+                                    class="text-blue-500 mr-2"
                                     @click="handleEdit(data)"
-                                    >Edit</a
+                                    ><i
+                                            class="fa fa-edit text-primary pt-1"
+                                        ></i></a
                                 >
-                                |
+                                
                                 <a
                                     href="javascript:void(0)"
                                     class="text-red-500"
                                     @click="deletePromise(data.id)"
-                                    >Delete</a
+                                    ><i
+                                            class="fa fa-trash text-danger pt-1"
+                                        ></i></a
                                 >
                             </td>
                             <!-- Add more table data rows if needed -->

@@ -21,8 +21,22 @@ class CustomerAppoinmentController extends Controller
     public function pay(Request $request)
     {
 
+        $validatedData = $request->query();
+
+        $startTime = $validatedData['time_start'];
+        $endTime = date('H:i', strtotime('+1 hour', strtotime($startTime)));
+
 
         $service = DentalService::where('id', $request->query('service_id'))->first();
+        $overlappingAppointment = Apointment::where('date', $validatedData['date'])->whereTime('time_start', $startTime)
+            ->first();
+
+        if ($overlappingAppointment) {
+            throw ValidationException::withMessages([
+                'date' => 'The date and time already taken',
+            ]);
+        }
+
         $hasAppointment = Apointment::where('user_id', auth()->user()->id)->first();
         if ($hasAppointment) {
             return redirect()->route('dashboard')->withErrors([
@@ -33,7 +47,7 @@ class CustomerAppoinmentController extends Controller
         $successUrl = URL::route('store_apointment', [
 
             'id' => $request->query('id'),
-            
+
             'date' =>  $request->query('date'),
             'time_start' => $request->query('time_start'),
             'time_end' => $request->query('time_end'),
@@ -100,8 +114,8 @@ class CustomerAppoinmentController extends Controller
             ->get();
         // dd($response->data->attributes->line_items[0]->amount);
 
-        
-      
+
+
 
         $validatedData = $request->query();
         $amountInCents = $response->data->attributes->line_items[0]->amount;
@@ -124,10 +138,10 @@ class CustomerAppoinmentController extends Controller
         $validatedData['time_end'] = $endTime;
         $validatedData['status'] = 'Pending';
 
-        
+
 
         $newAppointment = Apointment::create($validatedData);
-       
+
         Payment::create([
             'user_id' => auth()->user()->id,
             'apointment_id' => $newAppointment->id,
@@ -136,7 +150,7 @@ class CustomerAppoinmentController extends Controller
             'payment_status' => 'Partial Payment',
         ]);
 
-       
+
 
         if ($request->wantsJson()) {
             return new ApointmentListResource($newAppointment);
@@ -157,7 +171,6 @@ class CustomerAppoinmentController extends Controller
             ->with([])
             ->where(function ($query) use ($queryString) {
                 if ($queryString && $queryString != '') {
-                    
                 }
             })
             ->when(count($sort) == 1, function ($query) use ($sort, $order) {
@@ -207,7 +220,7 @@ class CustomerAppoinmentController extends Controller
             ]);
         }
 
-      
+
         $validatedData['time_end'] = $endTime;
         $validatedData['user_id'] = auth()->user()->id;
         $validatedData['status'] = 'Pending';
@@ -271,10 +284,15 @@ class CustomerAppoinmentController extends Controller
         return redirect()->back();
     }
 
-    public function getMyAppointment(){
+    public function getMyAppointment()
+    {
+        $service = DentalService::get();
         $myAppointment = Apointment::with('service')->where('user_id', auth()->user()->id)->first();
-        
 
-        return Inertia::render('Customer/MyAppointment', ['appointment' => $myAppointment]);    
+
+        return Inertia::render('Customer/MyAppointment', [
+            'appointment' => $myAppointment,
+            'service' => $service
+        ]);
     }
 }

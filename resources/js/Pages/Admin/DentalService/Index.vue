@@ -276,20 +276,24 @@ const deleteServices = (id)=>{
                                 {{ data.price }}
                             </td>
                             <td
-                                class="px-5 py-3 border-b border-gray-200 bg-white text-sm"
+                                class="px-5 py-3  border-b border-gray-200 bg-white text-sm"
                             >
                                 <a
                                     href="javascript:void(0)"
-                                    class="text-blue-500"
+                                    class="text-blue-500 mr-2"
                                     @click="editServices(data)"
-                                    >Edit</a
+                                    ><i
+                                            class="fa fa-edit text-primary pt-1 "
+                                        ></i></a
                                 >
-                                |
+                                
                                 <a
                                     href="javascript:void(0)"
                                     class="text-red-500"
                                     @click="deleteServices(data.id)"
-                                    >Delete</a
+                                    ><i
+                                            class="fa fa-trash text-danger pt-1 "
+                                        ></i></a
                                 >
                             </td>
                             <!-- Add more table data rows if needed -->
