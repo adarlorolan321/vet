@@ -111,35 +111,7 @@ export default {
                             </div>
                         </div>
                     </div>
-                    <div class="carousel-item">
-                        <img
-                            class="w-100"
-                            src="img/carousel-2.jpg"
-                            alt="Image"
-                        />
-                        <div
-                            class="carousel-caption d-flex flex-column align-items-center justify-content-center"
-                        >
-                            <div class="p-3" style="max-width: 900px">
-                                <h5
-                                    class="text-white text-uppercase mb-3 animated slideInDown"
-                                >
-                                    Keep Your Teeth Healthy
-                                </h5>
-                                <h1
-                                    class="display-1 text-white mb-md-4 animated zoomIn"
-                                >
-                                    Take The Best Quality Dental Treatment
-                                </h1>
-                                <Appointment></Appointment>
-                                <a
-                                    href=""
-                                    class="btn btn-secondary py-md-3 px-md-5 animated slideInRight"
-                                    >Contact Us</a
-                                >
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
                 <button
                     class="carousel-control-prev"

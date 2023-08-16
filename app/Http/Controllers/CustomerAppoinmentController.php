@@ -26,7 +26,7 @@ class CustomerAppoinmentController extends Controller
         $hasAppointment = Apointment::where('user_id', auth()->user()->id)->first();
         if ($hasAppointment) {
             return redirect()->route('dashboard')->withErrors([
-                'date' => 'You have an appointment'
+                'date' => 'You already have an appointment'
             ]);
         }
 
@@ -269,5 +269,12 @@ class CustomerAppoinmentController extends Controller
             return response(null, 204);
         }
         return redirect()->back();
+    }
+
+    public function getMyAppointment(){
+        $myAppointment = Apointment::with('service')->where('user_id', auth()->user()->id)->first();
+        
+
+        return Inertia::render('Customer/MyAppointment', ['appointment' => $myAppointment]);    
     }
 }

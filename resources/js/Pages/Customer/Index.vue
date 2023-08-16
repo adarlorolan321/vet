@@ -50,7 +50,9 @@ const closeMOdal = () => {
             :data="form_data"
             :service="form_data"
             :show="isModalShow"
-        ></AddSlotModal>
+        >
+    
+    </AddSlotModal>
       
             <a href="javascript:void(0);" class="btn btn-primary bg-green py-md-3 px-md-5 me-3 animated slideInLeft"  @click="openModal" type="button">Appointment</a >
         

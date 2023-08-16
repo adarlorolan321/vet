@@ -13,18 +13,17 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 export default {
     props: {
         data: Object,
-        user: Object
+        user: Object,
     },
     components: {
         FullCalendar, // make the <FullCalendar> tag available
-            CustomerLayout,
+        CustomerLayout,
     },
     computed: {
         transformedEvents() {
             // Transform the prop data into the events format expected by FullCalendar
             return this.data.data.map((item) => ({
-                
-                title: this.user.id == item.user_id ? "You" :'Taken',
+                title: this.user.id == item.user_id ? "You" : "Taken",
                 start: `${item.date}T${item.time_start}`,
                 end: `${item.date}T${item.time_end}`,
             }));
@@ -37,6 +36,8 @@ export default {
                 initialView: "dayGridMonth", // Use "timeGridWeek" or "timeGridDay" for time slots
                 slotDuration: "00:30:00", // Set the duration for each time slot (30 minutes in this example)
                 dateClick: this.handleDateClick,
+                height: 750,
+                contentHeight: 650,
                 headerToolbar: {
                     left: "prev,next today", // Show previous, next, and today buttons on the left side
                     center: "title", // Show the title (current date) in the center
@@ -66,9 +67,29 @@ export default {
 
 <template>
     <CustomerLayout>
-        <div class="calendar-container mx-5 mt-5">
-            <FullCalendar class="calendar" :options="calendarOptions" />
+        <div class="container-fluid py-5 wow " data-wow-delay="0.1s">
+            <div class="container">
+                <div class="row g-5 mb-5">
+                    <div class="col-lg-12">
+                        <div class="section-title mb-5">
+                            <h5
+                                class="position-relative d-inline-block text-primary text-uppercase"
+                            >
+                            Explore Available Dates
+                            </h5>
+                            <h1 class="display-5 mb-0">
+                                Find Your Perfect Appointment Slot
+                            </h1>
+                        </div>
+                        <div class="calendar-container mx-5 mt-5">
+                            <FullCalendar
+                                class="calendar"
+                                :options="calendarOptions"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </CustomerLayout>
-    
 </template>

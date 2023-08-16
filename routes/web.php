@@ -6,6 +6,7 @@ use App\Http\Controllers\Apointment\ApointmentController;
 use App\Http\Controllers\Customer\CustomerCalendarController;
 use App\Http\Controllers\Customer\ServiceController;
 use App\Http\Controllers\CustomerAppoinmentController;
+use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Admin\DentalService;
 use App\Models\Apointment\Apointment;
@@ -71,11 +72,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
    
     Route::resource('apointment', ApointmentController::class);
+    
     Route::resource('unavailable-dates', UnavalableDatesController::class);
     Route::resource('dental-services', DentalServiceController::class);
     Route::resource('customer-apointment', CustomerAppoinmentController::class);
+    Route::resource('patients', PatientController::class);
     Route::get('pay',[ CustomerAppoinmentController::class,'pay'])->name('pay');
     Route::get('store_apointment',[ CustomerAppoinmentController::class,'store_apointment'])->name('store_apointment');
+    Route::get('get-my-apointment',[ CustomerAppoinmentController::class,'getMyAppointment'])->name('getMyAppointment');
     Route::prefix("customer")->group(function () {
         Route::resource('slots', CustomerCalendarController::class);
         Route::resource('services', ServiceController::class);

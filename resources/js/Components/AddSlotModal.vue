@@ -1,6 +1,7 @@
 <script setup>
 import { defineProps, defineEmits, ref, computed, watch, onMounted } from "vue";
-
+import toastr from "toastr";
+import 'toastr/build/toastr.css';
 import CustomerLayout from "@/Layouts/CustomerLayout.vue";
 import { Head, useForm, router, usePage } from "@inertiajs/vue3";
 import InputError from "@/Components/InputError.vue";
@@ -40,7 +41,9 @@ const timeOptions = ref([
     { label: "03:00 PM", value: "15:00" },
     { label: "04:00 PM", value: "16:00" },
 ]);
-
+// onMounted(() => {
+//      toastr.error('sdasd')
+// });
 const addSlotModal = ref(null);
 
 const emit = defineEmits();
@@ -54,6 +57,9 @@ const props = defineProps({
         default: false,
     },
 });
+
+
+
 watch([() => props.show, () => props.data], () => {
     if (props.show && props.data) {
         form = { ...form, ...props.data };
@@ -67,6 +73,11 @@ function openModal() {
     addSlotModal.value.style.transform = "scale(1)";
     addSlotModal.value.style.display = "flex";
 }
+onMounted(() => {
+    if(errors.value.date){
+        toastr.error(errors.value.date);
+    }
+});
 
 function closeMOdal() {
     addSlotModal.value.style.transition = ".3s";
@@ -79,18 +90,8 @@ function closeMOdal() {
 }
 
 const submit = () => {
-    console.log("rolan");
-    if (form.id != null) {
-        form.patch(route("customer-apointment.update", { id: form.id }), {
-            onError: (error) => {
-                form.errors = error.errors;
-            },
-            onSuccess: () => {
-                closeMOdal();
-                form.reset();
-            },
-        });
-    } else {
+    
+     
         const amount = 20000;
         
         const param2 = "another value";
@@ -101,8 +102,8 @@ const submit = () => {
         const url = `https://castillet-dental.test/pay?amount=${encodedAmount}&id=${form.id}&date=${form.date}&time_start=${form.time_start}&time_end=${form.time_end}&status=${form.status}&type=${form.type}&payment_status=${form.payment_status}&service_id=${form.service_id}`;
 
         window.location.href = url;
-  
-    }
+       
+    
 };
 </script>
 <template>
@@ -120,10 +121,10 @@ const submit = () => {
     >
         <div class="relative w-full max-w-2xl max-h-full">
             <!-- Modal content -->
-            <div class="appointment-form bg-secondary h-100 d-flex flex-column justify-content-center text-center p-5 wow zoomIn">
+            <div class="appointment-form  h-100 d-flex flex-column justify-content-center text-center p-5 wow zoomIn">
                 <!-- Modal header -->
                 <div
-                    class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600"
+                    class="flex items-start justify-between p-4 border-b rounded-t dark:border-white-600"
                 >
                     <h3
                         class="text-xl font-semibold text-gray-900 dark:text-white"

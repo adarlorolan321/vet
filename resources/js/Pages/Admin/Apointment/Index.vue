@@ -99,6 +99,7 @@ const submit = () => {
     console.log("rolan");
     form.post(route("apointment.store"), {
         onError: (error) => {
+            
             this.form.errors = error.errors;
         },
     });
