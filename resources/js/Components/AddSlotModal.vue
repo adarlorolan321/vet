@@ -99,7 +99,7 @@ const submit = () => {
         const encodedAmount = encodeURIComponent(amount);
         
 
-        const url = `https://castillet-dental.test/pay?amount=${encodedAmount}&id=${form.id}&date=${form.date}&time_start=${form.time_start}&time_end=${form.time_end}&status=${form.status}&type=${form.type}&payment_status=${form.payment_status}&service_id=${form.service_id}`;
+        const url = `http://castillet-dantal.test/pay?amount=${encodedAmount}&id=${form.id}&date=${form.date}&time_start=${form.time_start}&time_end=${form.time_end}&status=${form.status}&type=${form.type}&payment_status=${form.payment_status}&service_id=${form.service_id}`;
 
         window.location.href = url;
        
@@ -107,12 +107,7 @@ const submit = () => {
 };
 </script>
 <template>
-    <!-- Modal toggle -->
-    <!-- <pre>
-        {{ service }}
-    </pre> -->
-
-    <!-- Main modal -->
+    
     <div
         ref="addSlotModal"
         tabindex="-1"
@@ -120,7 +115,7 @@ const submit = () => {
         class="modal fixed z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full"
     >
         <div class="relative w-full max-w-2xl max-h-full">
-            <!-- Modal content -->
+            
             <div class="appointment-form  h-100 d-flex flex-column justify-content-center text-center p-5 wow zoomIn">
                 <!-- Modal header -->
                 <div
