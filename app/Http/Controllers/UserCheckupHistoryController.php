@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCheckupHistoryRequest;
+use App\Http\Resources\Admin\DentalServiceListResource;
 use App\Http\Resources\User\UserLisResource;
+use App\Models\Admin\DentalService;
+use App\Models\CheckupHistory;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class UserCheckupHistoryController extends Controller
 {
@@ -57,10 +63,51 @@ class UserCheckupHistoryController extends Controller
         return Inertia::render('Admin/UserCheckupHistory/Index', $props);
     }
 
-    public function show(Request $request, string $id){
-        $user = User::where('id', $id)->first();
+    public function store(StoreCheckupHistoryRequest $request)
+    {
+        $data = $request->all();
 
-        
-        return Inertia::render('Admin/UserCheckupHistory/Show', ['user' => $user]);
+
+
+        // dd($data);
+
+        $services = CheckupHistory::create([
+            'user_id' => $data['user_id'],
+            'description' => $data['description'],
+            'date' => $data['date'],
+            'service_id' => $data['service_id'],
+            'xray' => json_encode($data['xray']),
+            'title' => $data['title']
+        ]);
+
+
+        if ($request->has('xray')) {
+
+            foreach ($request->xray as $xray) {
+                Media::where('id', $xray['id'])
+                    ->update([
+                        'model_id' => $services->id
+                    ]);
+            }
+        }
+
+        return Redirect::back()->with('status', 'Services created successfully!');
     }
+
+    
+    public function show(Request $request, string $id)
+    {
+        $services = DentalService::all();
+        $user = User::where('id', $id)->first();
+        $history = CheckupHistory::where('user_id', $id)->get();
+        $props = [
+            'services' => $services,
+             'user' => $user,  
+             'history' => $history
+        ];
+       
+
+        return Inertia::render('Admin/UserCheckupHistory/Show',$props);
+    }
+
 }

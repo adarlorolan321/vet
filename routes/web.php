@@ -80,6 +80,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('customer-apointment', CustomerAppoinmentController::class);
     Route::resource('patients', PatientController::class);
     Route::resource('user-history', UserCheckupHistoryController::class);
+    // Route::get('user-history/{id}',[UserCheckupHistoryController::class, 'showData'])->name('user-history.getData');
     Route::resource('payments', PaymentController::class);
     Route::get('pay',[ CustomerAppoinmentController::class,'pay'])->name('pay');
     Route::get('store_apointment',[ CustomerAppoinmentController::class,'store_apointment'])->name('store_apointment');

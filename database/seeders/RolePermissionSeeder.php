@@ -40,6 +40,16 @@ class RolePermissionSeeder extends Seeder
                 'update dental_service',
                 'delete dental_service',
                 'view dental_service',
+
+                'store checkup_history',
+                'access checkup_history',
+                'insert checkup_history',
+                'edit checkup_history',
+                'update checkup_history',
+                'delete checkup_history',
+                'view checkup_history',
+
+               
             ],
             'Dentist' => [
                 'access user',
@@ -74,6 +84,8 @@ class RolePermissionSeeder extends Seeder
                 'update apointment',
                 'delete apointment',
                 'view apointment',
+
+                'view checkup_history',
 
             ],
            

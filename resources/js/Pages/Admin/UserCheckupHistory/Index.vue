@@ -20,7 +20,7 @@ const province = computed((data)=>{
 });
 
 const handleView = (userId) =>{
-    axios.get(route('user-history.show',{id:userId}))
+    axios.get(route('history',{id:userId}))
 }
 
 const formObject = {
@@ -151,9 +151,9 @@ let {
                                 class="px-5 py-3 border-b border-gray-200 bg-white text-sm"
                             >
                                 <a
-                                    href="javascript:void(0)"
+                                    :href="`user-history/${data.id}`"
                                     class="text-blue-500 mr-2"
-                                    @click="handleView(data.id)"
+                                   
                                     ><i
                                             class="fa fa-eye text-primary pt-1"
                                         ></i></a
