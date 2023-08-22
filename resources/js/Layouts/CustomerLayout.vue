@@ -91,7 +91,7 @@ const showingNavigationDropdown = ref(false);
                                 :href="route('services.index')"
                                 >Services</a
                             >
-                            <a class="mx-2 nav-item nav-link">History</a>
+                            <a class="mx-2 nav-item nav-link"  :href="route('histories.index')">History</a>
                             <div class="ml-3 relative" v-if="$page.props.auth">
                                 <Dropdown align="right" width="48">
                                     <template #trigger>

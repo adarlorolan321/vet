@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -22,7 +22,12 @@ class UpdateCheckupHistoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "user_id" => ["required"],"appointment_id" => ["required"],"service_id" => ["required"],"title" => ["required"],"description" => ["required"],"date" => ["required"],
+            "user_id" => ["required"],
+            "service_id" => ["required"],
+            "title" => ["required"],
+            "description" => ["required"],
+            "date" => ["required"], 
+            "xray" => ["nullable"]
         ];
     }
 }

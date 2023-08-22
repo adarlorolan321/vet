@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCheckupHistoryRequest;
+use App\Http\Requests\UpdateCheckupHistoryRequest;
 use App\Http\Resources\Admin\DentalServiceListResource;
+use App\Http\Resources\CheckupHistoryListResource;
 use App\Http\Resources\User\UserLisResource;
 use App\Models\Admin\DentalService;
 use App\Models\CheckupHistory;
@@ -36,7 +38,7 @@ class UserCheckupHistoryController extends Controller
             })
             ->where('email', "!=", 'admin@admin.com')
             ->where('email', "!=", 'dentist@admin.com')
-          
+            ->orderBy('date', 'DESC')
             ->when(count($sort) == 1, function ($query) use ($sort, $order) {
                 $query->orderBy($sort[0], $order);
             })
@@ -99,7 +101,7 @@ class UserCheckupHistoryController extends Controller
     {
         $services = DentalService::all();
         $user = User::where('id', $id)->first();
-        $history = CheckupHistory::where('user_id', $id)->get();
+        $history = CheckupHistory::where('user_id', $id)->orderBy('date', 'DESC')->get();
         $props = [
             'services' => $services,
              'user' => $user,  
@@ -108,6 +110,43 @@ class UserCheckupHistoryController extends Controller
        
 
         return Inertia::render('Admin/UserCheckupHistory/Show',$props);
+    }
+    public function update(UpdateCheckupHistoryRequest $request, string $id)
+    {
+        $history = CheckupHistory::findOrFail($id);
+        if ($request->has('photo')) {
+
+            Media::where('model_id', $id)->where('collection_name', 'xray')
+                ->where('model_type', 'App\Models\CheckupHistory')
+                ->update([
+                    'model_id' =>  0
+                ]);
+
+            if ($request->has('xray')) {
+                foreach ($request->xray as $xray) {
+                    Media::where('id', $xray['id'])
+                        ->update([
+                            'model_id' => $history->id
+                        ]);
+                }
+            }
+            $history->update([
+                'xray' => json_encode($request->xray)
+            ]);
+        } else {
+            $history->clearMediaCollection('xray');
+        }
+
+        sleep(1);
+
+        $history->update($request->validated());
+        if ($request->wantsJson()) {
+            return (new CheckupHistoryListResource($history))
+                ->response()
+                ->setStatusCode(201);
+        }
+
+        return redirect()->back();
     }
 
 }

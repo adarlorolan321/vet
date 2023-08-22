@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Admin\DentalService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
@@ -33,4 +34,11 @@ class CheckupHistory extends Model implements HasMedia
     
         return $images;
     }
+
+    public function service()
+    {
+        return $this->belongsTo(DentalService::class);
+    }
+    
+
 }

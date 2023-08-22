@@ -26,10 +26,21 @@ let form = useForm({
 
 const showModal = ref(false);
 
-
+const editServices = (data)=>{
+  console.log(data)
+    showModal.value = true
+    form.id =data.id
+    form.user_id =user.value.id,
+    form.service_id = data.service_id,
+    form.description = data.description,
+    form.date = data.date,
+    form.title = data.title
+    form.xray  = JSON.parse(data.xray);
+}
 
 const resetInput = () => {
   showModal.value = false;
+
   form.service_id = null;
   form.description = null;
   form.duration = null;
@@ -47,7 +58,7 @@ const submitForm = async () => {
   console.log(form)
   if (form.id) {
     console.log(form);
-    await form.patch(route("dental-services.update", form.id), {
+    await form.patch(route("user-history.update", form.id), {
       onSuccess: () => {
         resetInput();
       },
@@ -197,8 +208,9 @@ const deleteServices = (id) => {
               </p>
               <a
                 href="#"
+                @click="editServices(item)"
                 class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-gray-200 focus:text-blue-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700"
-                >Learn more
+                >Edit
                 <svg
                   class="w-3 h-3 ml-2"
                   aria-hidden="true"

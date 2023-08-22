@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\UnavalableDatesController;
 use App\Http\Controllers\Apointment\ApointmentController;
 use App\Http\Controllers\Customer\CustomerCalendarController;
 use App\Http\Controllers\Customer\ServiceController;
+use App\Http\Controllers\Customer\UserHistoryController;
 use App\Http\Controllers\CustomerAppoinmentController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProfileController;
@@ -72,7 +73,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-   
+    Route::resource('/histories', UserHistoryController::class);
     Route::resource('apointment', ApointmentController::class);
     
     Route::resource('unavailable-dates', UnavalableDatesController::class);

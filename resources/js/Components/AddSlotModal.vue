@@ -99,7 +99,7 @@ const submit = () => {
         const encodedAmount = encodeURIComponent(amount);
         
 
-        const url = `http://castillet-dantal.test/pay?amount=${encodedAmount}&id=${form.id}&date=${form.date}&time_start=${form.time_start}&time_end=${form.time_end}&status=${form.status}&type=${form.type}&payment_status=${form.payment_status}&service_id=${form.service_id}`;
+        const url = `/pay?amount=${encodedAmount}&id=${form.id}&date=${form.date}&time_start=${form.time_start}&time_end=${form.time_end}&status=${form.status}&type=${form.type}&payment_status=${form.payment_status}&service_id=${form.service_id}`;
 
         window.location.href = url;
        

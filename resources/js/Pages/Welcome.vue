@@ -255,7 +255,7 @@ export default {
                             </div>
                         </div>
                         <a
-                            href="appointment.html"
+                            href="/"
                             class="btn btn-primary bg-green py-3 px-5 mt-4 wow zoomIn"
                             data-wow-delay="0.6s"
                             >Make Appointment</a
@@ -444,7 +444,7 @@ export default {
                                 sed et.
                             </p>
                             <a
-                                href="appointment.html"
+                                href="/"
                                 class="btn btn-dark py-3 px-5 me-3"
                                 >Appointment</a
                             >
@@ -541,7 +541,7 @@ export default {
                                         ></i>
                                     </div>
                                     <a
-                                        href="appointment.html"
+                                        href="/"
                                         class="btn btn-primary bg-green py-2 px-4 position-absolute top-100 start-50 translate-middle"
                                         >Appointment</a
                                     >
@@ -593,7 +593,7 @@ export default {
                                         ></i>
                                     </div>
                                     <a
-                                        href="appointment.html"
+                                        href="/"
                                         class="btn btn-primary bg-green py-2 px-4 position-absolute top-100 start-50 translate-middle"
                                         >Appointment</a
                                     >
@@ -645,7 +645,7 @@ export default {
                                         ></i>
                                     </div>
                                     <a
-                                        href="appointment.html"
+                                        href="/"
                                         class="btn btn-primary bg-green py-2 px-4 position-absolute top-100 start-50 translate-middle"
                                         >Appointment</a
                                     >
@@ -726,7 +726,7 @@ export default {
                                 Meet Our Certified & Experienced Dentist
                             </h1>
                             <a
-                                href="appointment.html"
+                                href="/"
                                 class="btn btn-primary bg-green py-3 px-5"
                                 >Appointment</a
                             >
