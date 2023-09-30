@@ -97,7 +97,7 @@ let {
                                 scope="col"
                                 class="px-5 py-3 bg-green-template text-white font-semibold uppercase tracking-wider"
                             >
-                                Patient Name
+                                Owner Name
                             </th>
                             <th
                                 scope="col"

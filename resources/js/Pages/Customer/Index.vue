@@ -23,6 +23,7 @@ let form = useForm({
     time_end: null,
     status: "Pending",
     type: null,
+    pet_id:null
     
 });
 
@@ -54,6 +55,6 @@ const closeMOdal = () => {
     
     </AddSlotModal>
       
-            <a href="javascript:void(0);" class="btn btn-primary bg-green py-md-3 px-md-5 me-3 "  @click="openModal" type="button">Appointment</a >
+            <a href="javascript:void(0);" class="btn btn-secondary bg-white py-md-3 px-md-5 me-3 "  @click="openModal" type="button">Appointment</a >
         
 </template>

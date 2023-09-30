@@ -72,7 +72,7 @@ const submitForm = async () => {
   }
 };
 const deleteServices = (id) => {
-  form.delete(route("dental-services.destroy", id));
+  form.delete(route("vet-services.destroy", id));
 };
 </script>
 
@@ -185,7 +185,7 @@ const deleteServices = (id) => {
 
       <div class="bg-white shadow-lg rounded-lg p-6 w-100 mx-10">
         <div class="flex justify-between">
-          <h2 class="text-xl font-semibold mb-4">Checkup History</h2>
+          <h2 class="text-xl font-semibold mb-4">Pet History</h2>
           <PrimaryButton @click="showModal = true" class="add-button p-0 m-0">
             {{ "Add" }}
           </PrimaryButton>

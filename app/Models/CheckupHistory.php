@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Admin\DentalService;
+use App\Models\Admin\VetService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
@@ -37,7 +37,7 @@ class CheckupHistory extends Model implements HasMedia
 
     public function service()
     {
-        return $this->belongsTo(DentalService::class);
+        return $this->belongsTo(VetService::class);
     }
     
 

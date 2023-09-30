@@ -71,6 +71,8 @@ class ApointmentController extends Controller
      */
     public function store(StoreApointmentRequest $request)
     {
+
+        dd('rolan');
         $hasAppointment = Apointment::where('user_id', auth()->user()->id)->first();
 
 

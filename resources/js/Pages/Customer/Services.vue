@@ -28,16 +28,7 @@ const data = computed(() => {
             <div class="container">
                 <div class="row g-5 mb-5">
                     <div class="col-lg-12">
-                        <div class="section-title mb-5">
-                            <h5
-                                class="position-relative d-inline-block text-primary text-uppercase"
-                            >
-                                Our Services
-                            </h5>
-                            <h1 class="display-5 mb-0">
-                                We Offer The Best Quality Dental Services
-                            </h1>
-                        </div>
+                        
                         <div class="container mx-auto my-4">
                             <div
                                 class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"

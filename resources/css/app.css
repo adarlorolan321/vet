@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 .bg-green-template{
-  background-color: #2eaf7d;
+  background-color: #092a5a;
 }
 .text-green{
-  color: #2eaf7d;
+  color: #092a5a;
 }
 .add-button {
     margin: 48px 0 0 0;
@@ -19,15 +19,15 @@
   /* Target the event background color */
   .fc-event {
     cursor: pointer;
-    background-color: #2eaf7d; /* Change to your desired background color */
-    border-color: #2eaf7d; /* Change to your desired border color */
+    background-color: #092a5a; /* Change to your desired background color */
+    border-color: #092a5a; /* Change to your desired border color */
     color: white; /* Change to your desired text color */
   }
   
   /* If you want to style the events differently on hover */
   .fc-event:hover {
-    background-color: #2eaf7d; /* Change to your desired hover background color */
-    border-color: #2eaf7d; /* Change to your desired hover border color */
+    background-color: #092a5a; /* Change to your desired hover background color */
+    border-color: #092a5a; /* Change to your desired hover border color */
     color: white; /* Change to your desired text color */
   }
   .fc-daygrid-event-dot {
@@ -42,22 +42,22 @@
       padding: 4px;
       position: relative;
       z-index: 4;
-      color: #2eaf7d;
+      color: #092a5a;
   }
   .fc .fc-col-header-cell-cushion {
       display: inline-block;
       padding: 2px 4px;
-      color: #2eaf7d;
+      color: #092a5a;
   }
 /********** Template CSS **********/
 :root {
-  --primary: #2eaf7d;
+  --primary: #092a5a;
   --secondary: #F57E57;
   --light: #c1f6ed;
   --dark: #c1f6ed;
 }
 .bg-green{
-  background-color: #2eaf7d !important;
+  background-color: #092a5a !important;
 }
 
 h1,

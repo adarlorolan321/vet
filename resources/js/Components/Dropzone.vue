@@ -5,13 +5,13 @@
         <div class="dz-message " v-if="type == 'file'">
             <div class="tu-uploadphoto">
             <i class="icon icon-grid"></i>
-            <h5>Drag or <a style="color: #1da1f2">Click here</a> to upload photo</h5>
+            <h5>Upload Image</h5>
             </div>
          
         </div>
 
         <div class="dz-message" v-if="type == 'profile'">
-            Drop files here or click to upload
+            Upload Image
         </div>
 
         <div class="fallback">

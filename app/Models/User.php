@@ -71,5 +71,8 @@ class User extends Authenticatable
         static::creating(function ($user) {
             $user->name = $user->first_name . ' ' . $user->last_name;
         });
+        static::updating(function ($user) {
+            $user->name = $user->first_name . ' ' . $user->last_name;
+        });
     }
 }

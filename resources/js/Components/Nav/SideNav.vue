@@ -10,7 +10,7 @@ defineProps({
 <template>
     <div class="d-flex">
         <aside class="sidebar">
-            <h3>Castillet</h3>
+            <h3>VCMSC</h3>
             <ul>
                 <template v-for="link in links" :key="link">
                     <li

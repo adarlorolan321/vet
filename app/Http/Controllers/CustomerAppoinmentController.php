@@ -9,8 +9,9 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use App\Http\Requests\Apointment\UpdateApointmentRequest;
-use App\Models\Admin\DentalService;
+use App\Models\Admin\VetService;
 use App\Models\Payment\Payment;
+use App\Models\Pet\Pet;
 use Carbon\Carbon;
 use Ixudra\Curl\Facades\Curl;
 use Illuminate\Support\Facades\URL;
@@ -21,13 +22,14 @@ class CustomerAppoinmentController extends Controller
     public function pay(Request $request)
     {
 
+        
         $validatedData = $request->query();
 
         $startTime = $validatedData['time_start'];
         $endTime = date('H:i', strtotime('+1 hour', strtotime($startTime)));
 
 
-        $service = DentalService::where('id', $request->query('service_id'))->first();
+        $service = VetService::where('id', $request->query('service_id'))->first();
         $overlappingAppointment = Apointment::where('date', $validatedData['date'])->whereTime('time_start', $startTime)
             ->first();
 
@@ -47,7 +49,7 @@ class CustomerAppoinmentController extends Controller
         $successUrl = URL::route('store_apointment', [
 
             'id' => $request->query('id'),
-
+            'pet_id' =>  $request->query('pet_id'),
             'date' =>  $request->query('date'),
             'time_start' => $request->query('time_start'),
             'time_end' => $request->query('time_end'),
@@ -78,7 +80,7 @@ class CustomerAppoinmentController extends Controller
                         'gcash',
                     ],
                     'success_url' => $successUrl,
-                    'cancel_url' => 'http://castillet-dental.test/',
+                    'cancel_url' => 'http://vet.test/',
                     'description' => 'Dental Reservation',
 
 
@@ -286,13 +288,15 @@ class CustomerAppoinmentController extends Controller
 
     public function getMyAppointment()
     {
-        $service = DentalService::get();
+        $pet = Pet::where('user_id', auth()->user()->id)->get();
+        $service = VetService::get();
         $myAppointment = Apointment::with('service')->where('user_id', auth()->user()->id)->first();
 
 
         return Inertia::render('Customer/MyAppointment', [
             'appointment' => $myAppointment,
-            'service' => $service
+            'service' => $service,
+            'pet' => $pet
         ]);
     }
 }

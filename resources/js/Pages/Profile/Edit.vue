@@ -1,7 +1,7 @@
 <script setup>
 import CustomerLayout from '@/Layouts/CustomerLayout.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import DeleteUserForm from './Partials/DeleteUserForm.vue';
+import Pets from './Partials/Pets.vue';
 import UpdatePasswordForm from './Partials/UpdatePasswordForm.vue';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm.vue';
 import { Head, usePage } from '@inertiajs/vue3';
@@ -16,7 +16,7 @@ defineProps({
 });
 
 const user = usePage().props.auth.user;
-
+const pets = usePage().props.pets;
 const Layouts = usePage().props.auth.user.role == 'Admin'?AuthenticatedLayout:CustomerLayout
 
 
@@ -44,7 +44,7 @@ const Layouts = usePage().props.auth.user.role == 'Admin'?AuthenticatedLayout:Cu
                 </div>
 
                 <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                    <DeleteUserForm class="max-w-xl" />
+                    <Pets :data="pets" class="max-w-xl" />
                 </div>
             </div>
         </div>

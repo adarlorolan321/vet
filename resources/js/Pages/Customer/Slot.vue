@@ -71,16 +71,7 @@ export default {
             <div class="container">
                 <div class="row g-5 mb-5">
                     <div class="col-lg-12">
-                        <div class="section-title mb-5">
-                            <h5
-                                class="position-relative d-inline-block text-primary text-uppercase"
-                            >
-                            Explore Available Dates
-                            </h5>
-                            <h1 class="display-5 mb-0">
-                                Find Your Perfect Appointment Slot
-                            </h1>
-                        </div>
+                        
                         <div class="calendar-container mx-5 mt-5">
                             <FullCalendar
                                 class="calendar"

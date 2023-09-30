@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCheckupHistoryRequest;
 use App\Http\Requests\UpdateCheckupHistoryRequest;
-use App\Http\Resources\Admin\DentalServiceListResource;
+use App\Http\Resources\Admin\VetServiceListResource;
 use App\Http\Resources\CheckupHistoryListResource;
 use App\Http\Resources\User\UserLisResource;
-use App\Models\Admin\DentalService;
+use App\Models\Admin\VetService;
 use App\Models\CheckupHistory;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -38,7 +38,7 @@ class UserCheckupHistoryController extends Controller
             })
             ->where('email', "!=", 'admin@admin.com')
             ->where('email', "!=", 'dentist@admin.com')
-            ->orderBy('date', 'DESC')
+            ->orderBy('created_at', 'DESC')
             ->when(count($sort) == 1, function ($query) use ($sort, $order) {
                 $query->orderBy($sort[0], $order);
             })
@@ -99,7 +99,7 @@ class UserCheckupHistoryController extends Controller
     
     public function show(Request $request, string $id)
     {
-        $services = DentalService::all();
+        $services = VetService::all();
         $user = User::where('id', $id)->first();
         $history = CheckupHistory::where('user_id', $id)->orderBy('date', 'DESC')->get();
         $props = [

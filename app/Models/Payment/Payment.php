@@ -2,7 +2,7 @@
 
 namespace App\Models\Payment;
 
-use App\Models\Admin\DentalService;
+use App\Models\Admin\VetService;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

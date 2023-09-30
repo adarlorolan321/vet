@@ -18,97 +18,101 @@ export default {
 import { computed, onBeforeMount, onMounted, ref } from "vue";
 import { usePage } from "@inertiajs/vue3";
 import toastr from "toastr";
-import 'toastr/build/toastr.css';
+import "toastr/build/toastr.css";
 
 const data = computed(() => {
     return usePage().props.appointment;
 });
-
-
-
-
 </script>
 <template>
     <CustomerLayout>
-        <div class="container-fluid py-5" >
-            <div class="container">
-                <div class="row g-5 mb-5">
-                    <div class="col-lg-12">
-                        <div class="section-title mb-5">
-                            <h5
-                                class="position-relative d-inline-block text-primary text-uppercase"
-                            >
-                            Your Upcoming Appointment
-                            </h5>
-                            <h1 class="display-5 mb-0">
-                                Discover Premium Dental Services Tailored Just for You
-                            </h1>
-                        </div>
-                        <div class="flex justify-center " v-if="data">
-                            <div
-                                class="bg-white shadow-lg rounded-lg p-6 w-100 mx-10"
-                            >
-                                <h2 class="text-xl font-semibold mb-4">
-                                    Appointment Details
+        <div class="container-fluid py-5">
+            <div class="container mt-5">
+                <div class="row justify-content-center" v-if="data">
+                    <div class="col-md-8">
+                        <div class="">
+                            <div class="">
+                                <h2 class="card-title text-center mb-4">
+                                    Appointment Information
                                 </h2>
 
-                                <p><strong>Date:</strong> {{ data.date }}</p>
-                                <p>
-                                    <strong>Time Start:</strong>
-                                    {{ data.time_start }}
-                                </p>
-                                <p>
-                                    <strong>Time End:</strong>
-                                    {{ data.time_end }}
-                                </p>
+                                <ul
+                                    class="list-group list-group-flush text-dark"
+                                >
+                                    <li class="list-group-item">
+                                        <strong>Date:</strong> {{ data.date }}
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Time Start:</strong>
+                                        {{ data.time_start }}
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Time End:</strong>
+                                        {{ data.time_end }}
+                                    </li>
+                                </ul>
 
                                 <hr />
-                                <p>
-                                    <strong>Payment Amount:</strong> ${{
-                                        parseFloat(data.payment_amount).toFixed(
-                                            2
-                                        )
-                                    }}
-                                </p>
-                                <p>
-                                    <strong>Payment Method:</strong>
-                                    {{ data.payment_method }}
-                                </p>
-                                <p>
-                                    <strong>Payment Status:</strong>
-                                    {{ data.payment_status }}
-                                </p>
+
+                                <ul
+                                    class="list-group list-group-flush text-dark"
+                                >
+                                    <li class="list-group-item">
+                                        <strong>Payment Amount:</strong> ${{
+                                            parseFloat(
+                                                data.payment_amount
+                                            ).toFixed(2)
+                                        }}
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Payment Method:</strong>
+                                        {{ data.payment_method }}
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Payment Status:</strong>
+                                        {{ data.payment_status }}
+                                    </li>
+                                </ul>
 
                                 <hr />
-                                <p>
-                                    <strong>Service Name:</strong>
-                                    {{ data.service.name }}
-                                </p>
-                                <p>
-                                    <strong>Service Duration:</strong>
-                                    {{ data.service.duration }}
-                                </p>
 
-                                <p>
-                                    <strong>Status:</strong> {{ data.status }}
-                                </p>
-                                <p><strong>Type:</strong> {{ data.type }}</p>
+                                <ul
+                                    class="list-group list-group-flush text-dark"
+                                >
+                                    <li class="list-group-item">
+                                        <strong>Service Name:</strong>
+                                        {{ data.service.name }}
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Service Duration:</strong>
+                                        {{ data.service.duration }}
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Status:</strong>
+                                        {{ data.status }}
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Type:</strong> {{ data.type }}
+                                    </li>
+                                </ul>
                             </div>
                         </div>
-                        <div class="flex justify-center " v-else>
-                            <div
-                                class="bg-white shadow-lg rounded-lg p-6 w-100 mx-10"
-                            >
-                                <h2 class="text-xl text-center font-semibold mb-4">
-                                   No Appointment, Add one
+                    </div>
+                </div>
+
+                <div class="row justify-content-center mt-4" v-else>
+                    <div class="col-md-8">
+                        <div class="">
+                            <div class="card-body text-center">
+                                <h2
+                                    class="card-title text-xl font-semibold mb-4"
+                                >
+                                    No Appointment Found
                                 </h2>
-                                <hr>
+                                <hr />
                                 <div class="text-center">
                                     <Appointment></Appointment>
-
                                 </div>
-
-                                
                             </div>
                         </div>
                     </div>

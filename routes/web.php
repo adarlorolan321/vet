@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Admin\DentalServiceController;
+use App\Http\Controllers\Admin\VetServiceController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\UnavalableDatesController;
 use App\Http\Controllers\Apointment\ApointmentController;
@@ -9,9 +9,10 @@ use App\Http\Controllers\Customer\ServiceController;
 use App\Http\Controllers\Customer\UserHistoryController;
 use App\Http\Controllers\CustomerAppoinmentController;
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\Pet\PetController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserCheckupHistoryController;
-use App\Models\Admin\DentalService;
+use App\Models\Admin\VetService;
 use App\Models\Apointment\Apointment;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -35,7 +36,7 @@ if (env('APP_ENV') === 'dev') {
 
 Route::get('/', function () {
     $auth = auth()->user();
-    $service = DentalService::get();
+    $service = VetService::get();
     foreach ($service as $servicing) {
         $servicing['photo'] = json_decode($servicing['photo']);
     }
@@ -56,7 +57,7 @@ Route::get('/dashboard', function () {
     }
    
     else{
-        $service = DentalService::get();
+        $service = VetService::get();
         foreach ($service as $servicing) {
             $servicing['photo'] = json_decode($servicing['photo']);
         }
@@ -77,7 +78,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('apointment', ApointmentController::class);
     
     Route::resource('unavailable-dates', UnavalableDatesController::class);
-    Route::resource('dental-services', DentalServiceController::class);
+    Route::resource('vet-services', VetServiceController::class);
     Route::resource('customer-apointment', CustomerAppoinmentController::class);
     Route::resource('patients', PatientController::class);
     Route::resource('user-history', UserCheckupHistoryController::class);
@@ -89,6 +90,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix("customer")->group(function () {
         Route::resource('slots', CustomerCalendarController::class);
         Route::resource('services', ServiceController::class);
+        Route::resource('pets', PetController::class);
       
     });
 });

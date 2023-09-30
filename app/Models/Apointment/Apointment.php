@@ -2,7 +2,7 @@
 
 namespace App\Models\Apointment;
 
-use App\Models\Admin\DentalService;
+use App\Models\Admin\VetService;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -20,7 +20,7 @@ class Apointment extends Model
         return $this->belongsTo(User::class);
     }
     public function service(){
-        return $this->belongsTo(DentalService::class);
+        return $this->belongsTo(VetService::class);
     }
 
 }
