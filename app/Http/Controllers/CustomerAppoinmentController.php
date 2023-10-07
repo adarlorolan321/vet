@@ -198,6 +198,8 @@ class CustomerAppoinmentController extends Controller
     }
     public function store(StoreApointmentRequest $request)
     {
+
+    //    dd($request);
         $hasAppointment = Apointment::where('user_id', auth()->user()->id)->first();
 
 
@@ -224,6 +226,9 @@ class CustomerAppoinmentController extends Controller
 
 
         $validatedData['time_end'] = $endTime;
+        $validatedData['payment_amount'] = 0;
+        $validatedData['payment_method'] = 'N/A';
+        $validatedData['payment_status'] = 'N/A';
         $validatedData['user_id'] = auth()->user()->id;
         $validatedData['status'] = 'Pending';
 

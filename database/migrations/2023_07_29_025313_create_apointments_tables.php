@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('apointments', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id');
+            $table->foreignId('user_id');
+            $table->foreignId('pet_id');
             $table->string('date');
             $table->string('time_start');
             $table->string('time_end');

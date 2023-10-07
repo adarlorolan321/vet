@@ -52,27 +52,7 @@ const data = computed(() => {
                                     </li>
                                 </ul>
 
-                                <hr />
-
-                                <ul
-                                    class="list-group list-group-flush text-dark"
-                                >
-                                    <li class="list-group-item">
-                                        <strong>Payment Amount:</strong> ${{
-                                            parseFloat(
-                                                data.payment_amount
-                                            ).toFixed(2)
-                                        }}
-                                    </li>
-                                    <li class="list-group-item">
-                                        <strong>Payment Method:</strong>
-                                        {{ data.payment_method }}
-                                    </li>
-                                    <li class="list-group-item">
-                                        <strong>Payment Status:</strong>
-                                        {{ data.payment_status }}
-                                    </li>
-                                </ul>
+                               
 
                                 <hr />
 
@@ -83,14 +63,7 @@ const data = computed(() => {
                                         <strong>Service Name:</strong>
                                         {{ data.service.name }}
                                     </li>
-                                    <li class="list-group-item">
-                                        <strong>Service Duration:</strong>
-                                        {{ data.service.duration }}
-                                    </li>
-                                    <li class="list-group-item">
-                                        <strong>Status:</strong>
-                                        {{ data.status }}
-                                    </li>
+                                   
                                     <li class="list-group-item">
                                         <strong>Type:</strong> {{ data.type }}
                                     </li>

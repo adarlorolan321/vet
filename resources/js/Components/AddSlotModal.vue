@@ -18,7 +18,7 @@ const options = ref([
     { value: "Reschedule", label: "Reschedule" },
 ]);
 
-let form = useForm({
+const form = useForm({
     id: null,
     date: null,
     time_start: null,
@@ -97,15 +97,26 @@ function closeMOdal() {
 }
 
 const submit = () => {
-    const amount = 20000;
 
-    const param2 = "another value";
 
-    const encodedAmount = encodeURIComponent(amount);
 
-    const url = `/pay?amount=${encodedAmount}&id=${form.id}&date=${form.date}&time_start=${form.time_start}&time_end=${form.time_end}&status=${form.status}&type=${form.type}&payment_status=${form.payment_status}&service_id=${form.service_id}&pet_id=${form.pet_id}`;
+    form.post(route("customer-apointment.store"), {
+        onError: (error) => {
+            
+           
+        },
+    });
 
-    window.location.href = url;
+
+//     const amount = 20000;
+
+//     const param2 = "another value";
+
+//     const encodedAmount = encodeURIComponent(amount);
+
+//     const url = `/pay?amount=${encodedAmount}&id=${form.id}&date=${form.date}&time_start=${form.time_start}&time_end=${form.time_end}&status=${form.status}&type=${form.type}&payment_status=${form.payment_status}&service_id=${form.service_id}&pet_id=${form.pet_id}`;
+
+//     window.location.href = url;
 };
 </script>
 <template>
@@ -199,6 +210,7 @@ const submit = () => {
                                 :message="form.errors?.password"
                             />
                         </div>
+                       
                         <div class="mt-4 w-100">
                             <InputLabel
                                 for="time_start fc-event-title"

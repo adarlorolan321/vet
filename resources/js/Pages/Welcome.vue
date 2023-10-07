@@ -51,7 +51,7 @@ export default {
                     <h1 class="text-uppercase text-white mb-lg-4">Make Your Pets Happy</h1>
                     <p class="fs-4 text-white mb-lg-4">Dolore tempor clita lorem rebum kasd eirmod dolore diam eos kasd. Kasd clita ea justo est sed kasd erat clita sea</p>
                     <div class="d-flex align-items-center justify-content-center justify-content-lg-start pt-5">
-                        <Appointment></Appointment>
+                       <a  class="btn btn-primary" :href="route('getMyAppointment')">Add Appointment</a>
                         
                     </div>
                 </div>
